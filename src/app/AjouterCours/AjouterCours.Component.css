@@ -1,0 +1,65 @@
+input[type="file"] {
+  visibility: hidden;
+}
+.form_course{
+  text-align: center;
+  line-height: 100px;
+  background-color: white;
+  margin-top: 30px;
+  width:550px;
+  margin-left:  auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+
+
+}
+.panel{
+  width: 400px;
+  margin: 0 auto;
+
+}
+.genre{
+  line-height: 30px;
+
+  display: flex;
+  width: 150px;
+}
+.input{
+  margin-top: 7px;
+  text-align: center;
+  margin-left: 10px;
+  width: 100px;
+}
+.image{
+  width: 400px;
+
+  margin: 0 auto;
+}
+
+.imagepreview{
+  width: 150px;
+}
+
+.form{
+
+  background-color: white;
+  margin-left:  auto;
+  margin-right: auto;
+  line-height: 50px;
+  width: 550px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+.button{
+  float: 100%;
+  text-align: right;
+  width: 540px;
+
+}
+.generatr_quiz{
+  font-size: 25px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  height: 50px;
+}

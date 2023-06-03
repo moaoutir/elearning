@@ -1,0 +1,35 @@
+<h3>Ajouter une question</h3>
+<br><br><br><br><br><br><br><br><br>
+<div class="form">
+
+ <form [formGroup]="form" (submit)="clickfunction()" #postform = "ngForm">
+
+    <mat-form-field class="example-full-width" style="width: 530px;">
+      <mat-label>Question</mat-label>
+      <textarea matInput formControlName="question" ></textarea>
+    </mat-form-field>
+    <ul formArrayName="option">
+      <li *ngFor="let item of option.controls; let i = index">
+        <input type="radio" style="cursor: pointer; margin-right: 10px;" name="answer" [value]="i" (change)="onOptionChange($event)">
+        <mat-form-field class="example-full-width" style="width: 400px; text-align: left;">
+          <mat-label style="width: 400px;">option {{i+1}}</mat-label>
+          <input matInput [formControlName]="i">
+        </mat-form-field>
+      </li>
+    </ul>
+
+  <br>
+    <div class="button">
+  <button mat-raised-button color="primary" type="submit" style="width: 100px;">{{button}}</button>
+  </div>
+  </form>
+
+  </div>
+
+
+
+
+
+
+
+

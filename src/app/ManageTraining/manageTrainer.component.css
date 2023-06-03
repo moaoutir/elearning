@@ -1,0 +1,82 @@
+table {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.example-chip-list {
+  width: 100%;
+}
+
+.button{
+  margin-left: 5px;
+}
+.input{
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+.button_domain{
+  margin-left: 20px;
+  background-color: rgb(60, 60, 235);
+  width: 80px;
+  height: 30px;
+  border: 0px ;
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+}
+.list_module{
+  width: 90%;
+  height: 100px;
+  margin: 0 auto;
+}
+.button_save{
+  margin: 0 auto;
+  width: 100%;
+  text-align: right;
+  background-color: aqua;
+  text-align: center;
+
+}
+.button_save button{
+  width: 150px;
+  height: 40px;
+  border: 0px;
+  color: white;
+  background-color: #4B9CD3;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  float: right;
+  transition: all 0.3s ease;
+}
+
+.button_save button:hover{
+
+  color: #4B9CD3;
+  background-color: white;
+  border: 1px solid #4B9CD3;
+}
+
+.name_module{
+  width: 90%;
+  margin: 0 auto;
+  font-size: 25px;
+
+}
+.button{
+  cursor: pointer;
+  border: 0px;
+  height: 25px;
+}
+.button:hover{
+  background-color: rgb(60, 60, 235);
+  color: white;
+}
+.body{
+  background-color: white;
+  width: 60%;
+  margin: 0 auto;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

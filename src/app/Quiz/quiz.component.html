@@ -1,0 +1,26 @@
+<Header_Background></Header_Background>
+<h1 style="position: absolute;top: 10%;font-size: 50px;font-weight: 800;color: white; font-family: sans-serif; padding-left: 44%;">QUIZ </h1>
+
+
+
+<form [formGroup]="form"  #postform="ngForm">
+<br /><br /><br />
+<div style="text-align: center;width: 60%;margin: 0 auto;background-color: white;margin-bottom: 100px;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;" (window:beforeunload)="doSomething()">
+  <div style="width: 60px; padding: 4px; margin-bottom: 5px;"><div class="monitor"><p style=" margin-top: 16px;margin-right: 3px; margin-bottom: 10px; font-weight: bold;">{{ timer }}</p><mat-icon style="margin-top: 0px; height: 20px;">av_timer</mat-icon></div></div>
+  <div class="dim"  >
+    <p class="question">Question:  {{ question?._question }}</p>
+
+      <mat-radio-group #myGroup aria-labelledby="example-radio-group-label" class="example-radio-group" (change)="onChangeOption(question?._response,$event)" formControlName="title">
+        <div *ngFor="let shoe of list_options" >
+          <mat-radio-button  class="example-radio-button"  *ngIf="shoe?.id_question === question?.id_question" [value]="shoe?._options">
+            <div class="options">{{ shoe?._options }}</div>
+          </mat-radio-button>
+        </div>
+      </mat-radio-group>
+  </div >
+  <br>
+  <div class="save">
+    <button mat-raised-button color="primary" style="width: 100px; margin-right: 0px;" (click)="functionStatus()" >{{word}}</button>
+  </div>
+</div>
+</form>

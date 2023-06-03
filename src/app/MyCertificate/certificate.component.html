@@ -1,0 +1,24 @@
+
+<Header_Background></Header_Background>
+  <div style="width: 100%;position: absolute;top: 10%;"><h1 style="font-size: 50px;font-weight: 800;color: white; font-family: sans-serif; margin: 0 auto;width: 420px;">Mes certificats</h1></div>
+
+<br><br><br>
+<mat-accordion class="example-headers-align" *ngIf="list_certificate.length!= 0">
+<mat-expansion-panel *ngFor="let item of list_certificate" style="width: 65%; margin: 0 auto;"  >
+  <mat-expansion-panel-header>
+
+    <mat-panel-title>
+      <p>{{item?._nameCourse}}</p>
+        </mat-panel-title>
+    <mat-panel-description>
+      <p> score: {{item?._score}}</p>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+
+  <mat-action-row>
+    <a mat-button color="primary" (click)="showCertificate(item?._certificate)" >Ouvrir</a>
+  </mat-action-row>
+</mat-expansion-panel>
+</mat-accordion>
+<div *ngIf="list_certificate.length == 0" style=" width: 100%;"><p style="font-size: 30px; width: 350px;margin: 0 auto;">Rien n'est encore ajouté</p></div>

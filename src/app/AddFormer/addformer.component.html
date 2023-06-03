@@ -1,0 +1,53 @@
+<Header_Background></Header_Background>
+<div style="width: 100%;position: absolute;top: 10%;"><h1 style="font-size: 50px;font-weight: 800;color: white; font-family: sans-serif; margin: 0 auto;width: 830px;">Ajouter un nouveau formateur</h1></div>
+
+
+  <form [formGroup]="form" (submit)="AddNewFormer()" #postform="ngForm">
+    <div class="form_course">
+      <mat-form-field class="example-full-width" style="width: 400px">
+        <mat-label style="width: 400px">Prénom</mat-label>
+        <input matInput formControlName="firstName" />
+      </mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width" style="width: 400px">
+        <mat-label style="width: 400px">Nom</mat-label>
+        <input matInput formControlName="lastName" />
+      </mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width" style="width: 400px">
+        <mat-label style="width: 400px">Email</mat-label>
+        <input matInput formControlName="email" />
+      </mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width" style="width: 400px">
+        <mat-label style="width: 400px">Login</mat-label>
+        <input matInput formControlName="login" />
+      </mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width" style="width: 400px">
+        <mat-label>Mot de passe</mat-label>
+        <input type="password" matInput formControlName="password">
+      </mat-form-field>
+      <br />
+      <mat-form-field class="formField" style="width: 400px">
+        <mat-label>attribuer un domaine</mat-label>
+
+        <mat-select (selectionChange)="getDomainSelected($event)" formControlName="domain">
+          <mat-option *ngFor="let item of list_domains" [value]="item?.name_domain">
+            {{item?.name_domain}}</mat-option>
+
+        </mat-select>
+
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 400px">
+        <mat-label>attribuer des filières</mat-label>
+        <mat-select formControlName="module" multiple>
+          <mat-option *ngFor="let item of list_module" [value]="item?.name_module">{{item?.name_module}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+        <div class="button">
+          <button mat-raised-button color="primary" type="submit" style="width: 100px">Ajouter</button>
+      </div>
+
+    </div>
+  </form>

@@ -1,0 +1,56 @@
+table {
+  width: 80%;
+  margin: 0 auto;
+}
+.button{
+  cursor: pointer;
+  border: 0px;
+  height: 25px;
+  margin-left: 10px;
+  width: auto;
+  display: flex;
+  color: #42a2e3;
+}
+
+.button:hover{
+  background-color: #42a2e3;
+  color: white;
+}
+.total_style{
+  line-height: 50px;
+  padding-left: 30px;
+  font-size: 17px;
+}
+.Total_course{
+  line-height: 50px;
+  margin-left: 84%;
+  color: #42a2e3;
+  font-size: 17px;
+}
+.title{
+  line-height: 50px;
+  font-size: 30px;
+  font-weight: 500;
+  font-family: Candara;
+  padding-left: 10px;
+}
+.div{
+  background-color: white;
+  width: 80%;
+  height: 50px;
+  margin: 0 auto;
+  margin-bottom: 0px;
+}
+.button_search{
+  display: flex;
+  height: 35px;
+  background-color: #42a2e3;
+  border: 0px;
+  cursor: pointer;
+  border-radius: 18px;
+  width: 100px;
+}
+.div_search{
+  margin-right: 10px;
+  margin-top: 10px;
+}

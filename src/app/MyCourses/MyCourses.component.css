@@ -1,0 +1,41 @@
+td{
+  height: 60px;
+  padding-left: 10px;
+}
+.header{
+  text-align: left;
+  font-weight: 400;
+  height: 50px;
+  font-size: 28px;
+  padding-left: 15px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.formField{
+  margin-left: 20px;
+  width: 170px;
+  text-align: left;
+}
+.search{
+  width: 110px;
+  height: 35px;
+  line-height: 35px;
+  background-color: #42a2e3;
+  border: 0px;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 18px;
+  display: flex;
+}
+.button_edit{
+  height: 25px;
+  display: flex;
+  background-color: transparent;
+  border: 0px;
+  cursor: pointer;
+}
+.title{
+  font-family: Candara;
+  text-align: left;
+  padding-left: 20px;
+}

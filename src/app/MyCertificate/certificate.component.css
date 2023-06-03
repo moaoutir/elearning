@@ -1,0 +1,16 @@
+table {
+  width: 80%;
+  margin: 0 auto;
+}
+.button{
+  cursor: pointer;
+  border: 0px;
+  height: 25px;
+  margin-left: 10px;
+  width: auto;
+}
+.button:hover{
+  background-color: rgb(60, 60, 235);
+  color: white;
+}
+

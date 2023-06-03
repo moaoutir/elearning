@@ -1,0 +1,84 @@
+*{
+  margin: 0;
+  padding: 0;
+
+}
+
+
+body{
+  background-image: linear-gradient(to bottom, rgba(176, 176, 176, 0.478), rgba(0, 0, 0, 0.5));
+  background-color: rgba(209, 204, 204, 0.37);
+}
+.div1{
+  padding-top: 100px;
+  background-image: url("../../../assets/default-image/lock.jpg");
+  padding-bottom: 145px;
+  background-size: cover;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+}
+
+.table{
+  margin: auto;
+  height: 400px;
+  /*margin: auto;*/
+  width: 450px;
+
+}
+.Login{
+
+  border-style: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-family: Montserrat-Medium;
+font-size: 34px;
+color: red;
+  line-height: 60px;
+  width: 225px;
+
+}
+
+
+.contenu{
+  margin-top: 20px;
+  line-height: 40px;
+  margin: auto;
+  padding: 20px;
+}
+.contenu p{
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 30px;
+  cursor: default;
+}
+.loginbutton{
+  width: 350px;
+  height: 50px;
+  border: 1px solid;
+  cursor: default;
+  background-color: #4B9CD3;
+  color: white;
+  font-size: 20px;
+  font-weight:bold;
+  cursor: pointer;
+
+}
+
+.input{
+  width: 300px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid;
+  padding: 4px 20px;
+}
+.forget{
+  margin-left: 0px;
+
+}
+.temporaire{
+  border-top-left-radius:20px ;
+  background-color: red;
+  color: white;
+}
+
+

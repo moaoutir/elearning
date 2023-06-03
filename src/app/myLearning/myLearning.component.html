@@ -1,0 +1,41 @@
+<Header_Background></Header_Background>
+<div style="width: 100%;position: absolute;top: 10%;"><h1 style="font-size: 50px;font-weight: 800;color: white; font-family: sans-serif; margin: 0 auto;width: 550px;">Mon apprentissage</h1></div>
+
+<br><br><br>
+<table mat-table [dataSource]="myCourses" class="mat-elevation-z8" *ngIf="myCourses?.length != 0">
+
+  <!-- Checkbox Column-->
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <button  mat-button color="primary" (click)="openBottomSheet(row)"><mat-icon style="transform: scale(1); margin-right: 5px;">email</mat-icon>envoyer un email</button>
+      <button *ngIf="!tab_id_course.includes(row.id_course)" mat-button color="accent" (click)="openDialog(row)"><mat-icon>quiz</mat-icon> payer et passer le QUIZ</button>
+      <button mat-button color="primary" (click)="display_course(row)"><mat-icon>description</mat-icon> afficher le cours</button>
+    </td>
+  </ng-container>
+
+   <!--Position Column -->
+  <ng-container matColumnDef="_titleCours">
+    <th mat-header-cell *matHeaderCellDef> nom du cours </th>
+    <td mat-cell *matCellDef="let element"> {{element._titleCours}} </td>
+  </ng-container>
+
+  <!-- Weight Column-->
+  <ng-container matColumnDef="_domain">
+    <th mat-header-cell *matHeaderCellDef> domaine </th>
+    <td mat-cell *matCellDef="let element"> {{element._domain}} </td>
+  </ng-container>
+
+  <!-- Symbol Column-->
+  <ng-container matColumnDef="_module">
+    <th mat-header-cell *matHeaderCellDef> filière </th>
+    <td mat-cell *matCellDef="let element"> {{element._module}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+      (click)="selection.toggle(row)">
+  </tr>
+</table>
+<div *ngIf="myCourses?.length == 0" style=" width: 100%;"><p style="font-size: 30px; width: 300px;margin: 0 auto;">Nothing is added yet</p></div>

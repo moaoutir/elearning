@@ -1,0 +1,89 @@
+<div  [class.search]="search">
+
+  <div [class.div_1]="header" >
+    <div [class.div1]="!header" >
+      <div id="Search"  class="search_css">
+        <mat-icon class="icon_close" (click)="functionClick2()" >close</mat-icon>
+        <div style="margin: 0 auto; display: flex;">
+        <form [formGroup]="form" style=" overflow: hidden;  width: 700px; margin-top: 12px;">
+
+          <input formControlName="input" class="input" placeholder="Rechercher..." type="search" (keydown)="ClickSearch($event)">
+
+        </form>
+
+        <mat-icon (keydown)="ClickSearch('Enter')" class="icon_search" >search</mat-icon>
+
+       </div>
+      </div>
+
+    <div  class="div2 div7">
+         <a routerLink="/courses" style="cursor: pointer;">Cours</a>
+        <a  (click)="functionClick()" style="cursor: pointer;">Rechercher</a>
+        <a [matMenuTriggerFor]="Login" style="cursor: pointer;" >Compte</a>
+        <mat-menu class="menu_login" #Login="matMenu" yPosition="below">
+          <button *ngIf="!status"  mat-menu-item routerLink="/Sign_in">
+            <span class="sign" >Se connecter</span>
+          </button>
+          <button *ngIf="!status" mat-menu-item routerLink="/Sign_up">
+            <span >S'inscrire</span>
+          </button>
+          <button *ngIf="status" (click)="logout()" mat-menu-item>
+            <span >Se déconnecter</span>
+          </button>
+
+        </mat-menu>
+    </div>
+
+    <div class="div3">
+
+      <button *ngIf="status">
+        <mat-icon mat-icon-button class="button" [matMenuTriggerFor]="thisMenu">menu</mat-icon>
+      </button>
+
+      <mat-menu #thisMenu="matMenu">
+        <button mat-menu-item routerLink="/Course_create" *ngIf="role==='former'">
+          <img class="icon" src="../../assets/default-image/reliures-removebg-preview.ico">
+          <span>Mes cours créé</span>
+        </button>
+        <button mat-menu-item routerLink="/MyLearning" *ngIf="role==='student'">
+          <img class="icon" style="margin-top: 3px;" src="../../assets/default-image/clipart2604157.ico">
+          <span>Mon apprentissage</span>
+        </button>
+        <button mat-menu-item routerLink="/MyCertificate" *ngIf="role==='student'" style="display: flex;">
+          <img class="icon" style="margin-top: 15px;" src="../../assets/default-image/document.ico">
+          <span>Mes certificats</span>
+        </button>
+        <button mat-menu-item routerLink="/add_course" *ngIf="role==='former'">
+          <img class="icon" src="../../assets/default-image/online-education.ico">
+          <span class="span">ajouter un nouveau cours</span>
+        </button>
+        <button mat-menu-item routerLink="/MyCourses" *ngIf="role==='former'">
+          <mat-icon> format_list_bulleted</mat-icon>
+          <span>liste des étudiants et leurs cours</span>
+        </button>
+        <button mat-menu-item routerLink="/add_former" *ngIf="role==='administrator'">
+          <img class="icon" src="../../assets/default-image/add-user.ico">
+          <span>Ajouter un formateur</span>
+        </button>
+        <button mat-menu-item routerLink="/get_trainers" *ngIf="role==='administrator'">
+          <mat-icon> format_list_bulleted</mat-icon>
+          <span>Liste des formateurs</span>
+        </button>
+        <button mat-menu-item routerLink="/get_students" *ngIf="role==='administrator'">
+          <mat-icon> format_list_bulleted</mat-icon>
+          <span>Liste des étudiants</span>
+        </button>
+        <button mat-menu-item routerLink="/manage_training" *ngIf="role==='administrator'">
+          <img class="icon" src="../../assets/default-image/manage-1170 (1).ico">
+          <span>Gérer les formations</span>
+        </button>
+
+      </mat-menu>
+
+      <img style="width: 100px; height:53px;" src="../../assets/default-image/logo1.png" routerLink="/">
+    </div>
+
+  </div>
+
+  </div>
+</div>

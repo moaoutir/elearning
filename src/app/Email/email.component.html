@@ -1,0 +1,23 @@
+<mat-nav-list style="height: 190px;">
+
+    <form    [formGroup]="form" (submit)="sendEmail()" #postform="ngForm">
+
+      <div style="width: 100%;text-align: center;">
+        <mat-form-field mat-line class="example-full-width" style="width: 400px;">
+          <mat-label style="width: 400px">Sujet</mat-label>
+          <input matInput formControlName="subject" />
+        </mat-form-field>
+    </div>
+    <br>
+    <div style="width: 100%;text-align: center;">
+      <mat-form-field mat-line class="example-full-width" style="width: 400px;">
+        <mat-label style="width: 400px">Texte</mat-label>
+        <textarea matInput formControlName="text"></textarea>
+      </mat-form-field>
+  </div>
+  <div style="width: 100%; text-align: right;">
+  <button color="primary" mat-button>Envoyer</button>
+  </div>
+  </form>
+
+</mat-nav-list>

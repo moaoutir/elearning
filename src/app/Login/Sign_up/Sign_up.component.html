@@ -1,0 +1,101 @@
+<div class="div1">
+  <table class="table" style="background-color: white;margin-top: 0px;">
+
+      <tr>
+          <td class="a2" colspan="2" style="height: 415px;">
+<form [formGroup]="form"  #postform = "ngForm" (submit)="clickbutton()">
+                  <table class="contenu" id="login">
+                    <tr>
+                      <td>
+                          <p style="text-align: left;">First name :</p>
+                      </td>
+                    </tr>
+                    <tr>
+
+                      <td>
+
+                        <mat-form-field style="width: 340px;">
+                          <mat-label >first name</mat-label>
+                          <input matInput formControlName="Firstname" >
+                        </mat-form-field>
+                       </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                          <p style="text-align: left;">Last name :</p>
+                      </td>
+                    </tr>
+                    <tr>
+
+                      <td>
+
+                        <mat-form-field style="width: 340px;">
+                          <mat-label >last name</mat-label>
+                          <input matInput formControlName="Lastname" >
+                        </mat-form-field>
+                       </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                          <p style="text-align: left;">Login :</p>
+                      </td>
+                    </tr>
+                    <tr>
+
+                      <td>
+
+                        <mat-form-field style="width: 340px;">
+                          <mat-label >login</mat-label>
+                          <input matInput formControlName="login" >
+                        </mat-form-field>
+                       </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                          <p style="text-align: left;">Email :</p>
+                      </td>
+                    </tr>
+                    <tr>
+
+                      <td>
+
+                        <mat-form-field style="width: 340px; ">
+                          <mat-label>email</mat-label>
+                            <input type="email" matInput formControlName="email"
+                               placeholder="Ex. pat@example.com">
+                        <mat-error *ngIf="form.hasError('email') && !form.hasError('required')">
+                          Please enter a valid email address
+                        </mat-error>
+                        <mat-error *ngIf="form.hasError('required')">
+                          Email is <strong>required</strong>
+                        </mat-error>
+                        </mat-form-field>
+                       </td>
+                    </tr>
+                      <tr>
+                          <td>
+                              <p style="text-align: left;">Password :</p>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>  <mat-form-field style="width: 340px;">
+                            <mat-label >password</mat-label>
+                            <input matInput formControlName="password" type="password" >
+                          </mat-form-field> </td>
+                      </tr>
+
+                      <br>
+                      <tr>
+                          <td colspan="2" style="text-align: center;width: 300px ;" ><button class="loginbutton" type="submit">Sign Up</button></td>
+                      </tr>
+
+                  </table>
+                </form>
+          </td>
+      </tr>
+  </table>
+</div>
+

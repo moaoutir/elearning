@@ -1,0 +1,15 @@
+.header{
+  width: 100%;
+  height: 170px;
+  background-color: #90bad6;
+}
+.img_header{
+  width: 100%;
+  height: 70px;
+
+  background-image: url("../../assets/default-image/overlay-top.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  background-color: transparent;
+}

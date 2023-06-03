@@ -1,0 +1,103 @@
+
+.contenu{
+  width: 75%;
+  height: 100%;
+  display: flex;
+  margin: 0 auto;
+}
+.image{
+
+
+  height: 400px;
+  width: 700px;
+  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
+.information_course{
+  background-color:white;
+  margin-top: 10px;
+  margin-left: 30px;
+  display: block;
+  width: 350px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.genre_css{
+  padding: 10px;
+  border: 1px solid;
+  border-radius: 20px;
+  font-size: 20x;
+  font-weight: bold;
+  color: red;
+}
+h2{
+  color: gray;
+}
+h1{
+  color: gray;
+}
+.feature{
+
+  font-size: 30px;
+  font-family: Lucida Sans Unicode;
+  font-weight: 600;
+  padding-left: 20px;
+  padding-top: 30px;
+  padding-bottom: 35px;
+
+}
+.buttonTitle{
+  margin-left: 20px;
+  height: 27px;
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 5px;
+  background-color: transparent;
+  border-radius: 5px ;
+  border: solid 1.5px white;
+  color: white;
+  cursor: pointer;
+}
+.buttonTitle:hover{
+  border: solid 1.5px red;
+}
+.DELETE:hover{
+  background-color: #FE2712;
+}
+.style_p{
+  text-align: center;
+  font-size: 35px;
+  font-weight: bold;
+}
+.button_quiz{
+  font-size: 25px;
+  cursor: pointer;
+  width: 150px;
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid;
+  border-radius: 5px;
+}
+.button_quiz:hover{
+  background-color: rgb(59, 59, 176);
+  color: white;
+  border: 1px solid rgb(59, 59, 176);
+}
+/*.EDIT:hover{
+  background-color: #0247FE;
+  border: solid 1.5px #0247FE;
+}*/
+object::-webkit-media-controls {
+  display: none ;
+}
+object {
+  border: 1px solid #ccc;
+}
+.small_title{
+  color: red;
+  text-decoration: underline dotted red;
+  font-size: 25px;
+  line-height: 20px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  font-family: sans-serif;
+}

@@ -1,0 +1,50 @@
+<div class="div1">
+  <table class="table" style="background-color: white; ">
+
+      <tr>
+          <td class="a2" colspan="2" style="height: 415px;">
+<form [formGroup]="form" (submit)="clickbutton()"  #postform = "ngForm">
+                  <table class="contenu" id="login">
+                    <tr>
+                      <td>
+                          <p style="text-align: left;">Login:</p>
+                      </td>
+                    </tr>
+                    <tr>
+
+                      <td>
+
+                        <mat-form-field style="width: 340px;">
+                          <mat-label >login</mat-label>
+                          <input matInput formControlName="login" >
+                        </mat-form-field>
+                       </td>
+                      </tr>
+                    <tr>
+
+                      <td>
+
+
+                      <tr>
+                          <td>
+                              <p style="text-align: left;">Mot de passe :</p>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>  <mat-form-field style="width: 340px;">
+                            <mat-label >mot de passe</mat-label>
+                            <input matInput formControlName="password" type="password">
+                          </mat-form-field> </td>
+                      </tr>
+
+                      <br>
+                      <tr>
+                          <td colspan="2" style="text-align: center;width: 340px ; margin: 0 auto;" ><button type="submit" class="loginbutton">Se connecter</button></td>
+                      </tr>
+
+                  </table>
+                </form>
+          </td>
+      </tr>
+  </table>
+</div>

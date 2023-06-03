@@ -1,0 +1,121 @@
+<Header_Background></Header_Background>
+<div style="width: 100%;position: absolute;top: 10%;"><h1 style="font-size: 50px;font-weight: 800;color: white; font-family: sans-serif; margin: 0 auto;width: 540px;">Ajoutez votre cours</h1></div>
+
+<div style="width: 100%;">
+  <div style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; width: 550px; margin: 0 auto;">
+    <form [formGroup]="form" (submit)="clickfunction()" #postform="ngForm">
+    <div class="form_course">
+      <mat-form-field class="example-full-width" style="width: 400px">
+        <mat-label style="width: 400px">Titre du cours </mat-label>
+        <input matInput formControlName="title" />
+      </mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width" style="width: 400px">
+        <mat-label style="width: 400px">prix</mat-label>
+        <input type="number" matInput formControlName="price" />
+      </mat-form-field>
+      <br />
+
+      <mat-form-field class="example-full-width" style="width: 400px">
+        <mat-label>Description du cours</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+      <br />
+      <mat-form-field
+        appearance="fill"
+        style="width: 400px; margin-bottom: 10px">
+        <mat-label>Choisissez une formation</mat-label>
+        <mat-select formControlName="module">
+          <mat-option *ngFor="let item of list_modules" [value]="item?.name_module">
+            {{ item?.name_module }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field
+        appearance="fill"
+        style="width: 400px; margin-bottom: 0px">
+        <mat-label>Type du cours</mat-label>
+        <mat-select (selectionChange)="onCheckSelectNumber($event.value)">
+          <mat-option *ngFor="let item of typeCourses" [value]="item">
+            {{ item }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div style="margin-bottom: 85px" *ngIf="displayChapter === 'pdf'">
+        <div class="image" style="margin-bottom: 45px; height: 0px">
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="filepicker.click()"
+            style="width: 400px; background-color: rgb(144, 144, 144)">
+            Pick pdf course
+          </button>
+          <input type="file" (change)="onCourseChange($event)" #filepicker />
+        </div>
+      </div>
+
+      <div style="margin-bottom: 85px" *ngIf="displayChapter === 'video'">
+        <div class="image" style="margin-bottom: 45px; height: 0px">
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="filepicker.click()"
+            style="width: 400px; background-color: rgb(144, 144, 144)">
+            Pick video
+          </button>
+          <input type="file" (change)="onCourseChange($event)" #filepicker />
+        </div>
+      </div>
+
+      <div style="margin-bottom: 85px" *ngIf="displayChapter === 'pdf' || displayChapter === 'video'">
+        <div class="image" style="margin-bottom: 45px; height: 0px">
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="filepicker.click()"
+            style="width: 400px; background-color: rgb(144, 144, 144)">
+            Pick TP
+          </button>
+          <input type="file" (change)="onTpChange($event)" #filepicker />
+        </div>
+      </div>
+      <div class="image" style="margin-bottom: 100px;  margin-top: 0px; height: 0px; " >
+        <button mat-stroked-button type="button" (click)="filepicker.click()" style="width: 400px; margin-bottom: 20px; " >Entrez une image</button>
+        <input type="file" (change)="onImageChange($event)" #filepicker>
+     </div>
+
+
+
+
+      <div class="form" >
+        <p class="generatr_quiz">Générer un questionnaire</p>
+        <p style="text-align: left; margin-left: 15px; font-size: 18px;height: 25px;">Question: 1</p>
+        <mat-form-field
+          class="example-full-width"
+          style="width: 530px; margin-left: 10px">
+          <mat-label>Question {{cmp}}</mat-label>
+          <textarea matInput formControlName="question"></textarea>
+        </mat-form-field>
+        <div formArrayName="answer"></div>
+        <ul formArrayName="option" style="list-style-type: none;" >
+          <li *ngFor="let item of option.controls; let i = index" >
+            <input type="radio" style="cursor: pointer; margin-right: 10px" name="answer" [value]="i" (change)="onOptionChange($event)"/>
+            <mat-form-field
+              class="example-full-width" style="width: 400px; text-align: left" >
+              <mat-label style="width: 400px" >option {{ i + 1 }}</mat-label>
+              <input matInput [formControlName]="i"  />
+            </mat-form-field>
+          </li>
+        </ul>
+
+        <br />
+        <div class="button">
+          <button mat-raised-button color="primary" type="submit" style="width: 100px">
+            {{ button }}
+          </button>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>

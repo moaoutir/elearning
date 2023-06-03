@@ -1,0 +1,61 @@
+<div class="img_header">
+  <h1 *ngIf="path === 'list_courses'"
+    style="text-align: center;padding-top: 10%;font-size: 50px;font-weight: 800;color: white; font-family: sans-serif;">
+    Cours</h1>
+    <h1 *ngIf="path ==='search'"
+    style="text-align: center;padding-top: 10%;font-size: 50px;font-weight: 800;color: white; font-family: sans-serif;">
+    {{nbr_cours_trouve}} résultats pour "{{nom_du_cour_cherche}}"</h1>
+</div>
+<br><br>
+<div style="text-align: center; width: 95%; margin: 0 auto; background-color: rgb(251, 255, 255);">
+  <div class="erreur" *ngIf=" path === 'search'">
+    <div *ngIf="courses?.length<= 0">
+      <span class="material-icons icon">sentiment_very_dissatisfied</span>
+    </div>
+
+  </div>
+  <div class="dim" *ngFor="let course of courses | paginate: { itemsPerPage: 6, currentPage: p }">
+
+
+    <div class="course container">
+      <div class="course-img">
+        <img style="width: 100%; height: 100%;" src="{{course._image}}">
+      </div>
+
+      <div class="course-info" *ngIf="course">
+        <div class="course-header">
+          <h3 class="course-title">{{course._titleCours | uppercase }}
+            <span [ngClass]="{
+            'rating-star': 10
+          }">&#9733;</span>
+          </h3>
+          <div class="course-date">Prix: {{course._price}} DHS</div>
+        </div>
+        <div class="course-description">
+          <p>{{course._description}}</p>
+        </div>
+        <div *ngIf="role === 'student' && !this.tab_id_my_course.includes(course?._id)" style="cursor: pointer;"
+          class="course-buy" (click)="openDialog()" (click)="send_id_course(course._id)">
+          <button style="background-color: transparent; border: 0px; color: white;cursor: pointer;">Acheter 50%</button>
+        </div>
+      </div>
+      <!--
+  <div class="course-control">
+    <div class="edit">
+      <button class="edit-btn"
+        (click)="editCourse()">Edit</button>
+    </div>
+    <div class="delete">
+      <button class="remove-btn"
+        (click)="deleteCourse()">Delete</button>
+    </div>
+  </div>-->
+    </div>
+
+  </div>
+  <div style="padding-top: 20px;padding-bottom: 20px;">
+    <pagination-controls style="width: 300px; color: aquamarine;" (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+<br>
+<br>

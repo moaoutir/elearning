@@ -1,0 +1,32 @@
+table {
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+.button{
+  cursor: pointer;
+  border: 0px;
+  height: 25px;
+  margin-left: 10px;
+  width: auto;
+  display: flex;
+  color: #42a2e3;
+}
+
+.button:hover{
+  background-color: #42a2e3;
+  color: white;
+}
+.button_search{
+  display: flex;
+  height: 35px;
+  background-color: #42a2e3;
+  border: 0px;
+  cursor: pointer;
+  border-radius: 18px;
+  width: 105px;
+}
+.div_search{
+  margin-right: 10px;
+  margin-top: 10px;
+}
