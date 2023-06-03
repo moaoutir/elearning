@@ -9,8 +9,6 @@ module.exports = (permission)=>{
       const token = (req.headers.authorization).split(' ')[1];
       //console.log("token split ",token);
       const tokenDecoded = jwt.verify(token,"secret_password_123");
-      //const token1 = tokenDecoded;
-      //console.log("tokendecoded",tokenDecoded);
       if (tokenDecoded) {
         req.userData = tokenDecoded;
 
