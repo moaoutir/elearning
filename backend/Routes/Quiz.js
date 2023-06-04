@@ -1,7 +1,6 @@
 const express = require('express');
 var mysql = require('mysql');
 const ValidateJWB = require('../middelware/check_authenticate')
-const AuthPage = require('../middelware/check_authorisation');
 
 
 const router = express.Router();

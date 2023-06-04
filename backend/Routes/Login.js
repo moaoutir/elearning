@@ -3,7 +3,6 @@ var mysql = require('mysql');
 // npm install --save jsonwebtoken
 const jwt = require('jsonwebtoken');
 const ValidateJWB = require('../middelware/check_authenticate')
-const AuthPage = require('../middelware/check_authorisation');
 
 
 const router = express.Router();

@@ -34,13 +34,13 @@ import { AuthInterceptor } from "./Login/auth-interceptor";
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from "./header/header.component";
-import { AddCourseComponent } from "./AjouterCours/AjouterCours.Component";
+import { AddCoursComponent } from "./AddCours/AddCours.Component";
 import { ListCourseComponent } from "./ListCourse/ListCourse.component";
 import { AddQCMComponent } from "./AddQCM/AddQCM.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DisplayCourse } from "./Display_course/display.component";
 import { MyLearnersComponent } from "./MyLearners/myLearners.component";
-import { AddFormerComponent } from "./AddFormer/addformer.component";
+import { AddFormateurComponent } from "./AddFormateur/addformateur.component";
 import { GetUserComponent } from "./Trainers/trainers.component";
 import { ManageTrainerComponent } from "./ManageTraining/manageTrainer.component";
 import { QuizComponent } from "./Quiz/quiz.component";
@@ -64,12 +64,12 @@ import { EmailComponent } from "./Email/email.component";
   declarations: [
     HeaderComponent,
     AppComponent,
-    AddCourseComponent,
+    AddCoursComponent,
     ListCourseComponent,
     AddQCMComponent,
     DisplayCourse,
     MyLearnersComponent,
-    AddFormerComponent,
+    AddFormateurComponent,
     GetUserComponent,
     ManageTrainerComponent,
     QuizComponent,

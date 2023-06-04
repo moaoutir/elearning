@@ -7,12 +7,12 @@
     <div class="form_course">
       <mat-form-field class="example-full-width" style="width: 400px">
         <mat-label style="width: 400px">Titre du cours </mat-label>
-        <input matInput formControlName="title" />
+        <input matInput formControlName="titre" />
       </mat-form-field>
       <br />
       <mat-form-field class="example-full-width" style="width: 400px">
         <mat-label style="width: 400px">prix</mat-label>
-        <input type="number" matInput formControlName="price" />
+        <input type="number" matInput formControlName="prix" />
       </mat-form-field>
       <br />
 
@@ -25,7 +25,7 @@
         appearance="fill"
         style="width: 400px; margin-bottom: 10px">
         <mat-label>Choisissez une formation</mat-label>
-        <mat-select formControlName="module">
+        <mat-select formControlName="filiere">
           <mat-option *ngFor="let item of list_modules" [value]="item?.name_module">
             {{ item?.name_module }}
           </mat-option>
@@ -89,21 +89,21 @@
 
       <div class="form" >
         <p class="generatr_quiz">Générer un questionnaire</p>
-        <p style="text-align: left; margin-left: 15px; font-size: 18px;height: 25px;">Question: 1</p>
+        <p style="text-align: left; margin-left: 15px; font-size: 18px;height: 25px;">Question: {{cmp + 1}}</p>
         <mat-form-field
           class="example-full-width"
           style="width: 530px; margin-left: 10px">
-          <mat-label>Question {{cmp}}</mat-label>
+          <mat-label>Question {{cmp + 1}}</mat-label>
           <textarea matInput formControlName="question"></textarea>
         </mat-form-field>
-        <div formArrayName="answer"></div>
+        <div formArrayName="reponse"></div>
         <ul formArrayName="option" style="list-style-type: none;" >
           <li *ngFor="let item of option.controls; let i = index" >
             <input type="radio" style="cursor: pointer; margin-right: 10px" name="answer" [value]="i" (change)="onOptionChange($event)"/>
             <mat-form-field
               class="example-full-width" style="width: 400px; text-align: left" >
               <mat-label style="width: 400px" >option {{ i + 1 }}</mat-label>
-              <input matInput [formControlName]="i"  />
+              <input matInput [formControlName]="i"/>
             </mat-form-field>
           </li>
         </ul>

@@ -8,13 +8,13 @@ import { Subscription } from "rxjs";
 
 @Component({
   selector: 'Add-Course',
-  templateUrl: './AjouterCours.component.html',
-  styleUrls: ['./AjouterCours.component.css'],
+  templateUrl: './AddCours.component.html',
+  styleUrls: ['./AddCours.component.css'],
 })
-export class AddCourseComponent implements OnInit,OnDestroy {
+export class AddCoursComponent implements OnInit,OnDestroy {
   constructor(public course_service: CourseService, private route: Router) {}
   list_domians:Domain[]=[];
-  domain:Domain;
+  domaine:Domain;
   domain_selected:string;
   list_domain_sub:Subscription = new Subscription();
   list_modules:Module[]=[];
@@ -25,44 +25,44 @@ export class AddCourseComponent implements OnInit,OnDestroy {
 
   displayChapter = '';
   numberChap = [];
-  cmp = 1;
-  button = "next";
+  cmp = 0;
+  button = "suivant";
   form: FormGroup = new FormGroup({
-    title: new FormControl(null, {validators: [Validators.required, Validators.maxLength(30)],}),
+    titre: new FormControl(null, {validators: [Validators.required, Validators.maxLength(30)],}),
     description: new FormControl(null, {validators: [Validators.required, Validators.maxLength(120)],}),
-    price: new FormControl(null, {validators: [Validators.required, Validators.maxLength(200)],}),
-    domain: new FormControl(null, { validators: [Validators.required] }),
-    module: new FormControl(null, { validators: [Validators.required] }),
-    course: new FormControl(null, { validators: [Validators.required] }),
+    prix: new FormControl(null, {validators: [Validators.required, Validators.maxLength(200)],}),
+    domaine: new FormControl(null, { validators: [Validators.required] }),
+    filiere: new FormControl(null, { validators: [Validators.required] }),
+    cours: new FormControl(null, { validators: [Validators.required] }),
     tp: new FormControl(null, { validators: [Validators.required] }),
     image : new FormControl(null,{validators:[Validators.required]}),
-    question : new FormControl(null,{validators:[Validators.maxLength(180),Validators.required]}),
-    answer : new FormControl(null,{validators:[Validators.required,Validators.maxLength(180)]}),
+    question : new FormControl(null,{validators:[Validators.maxLength(180)]}),
+    reponse : new FormControl(null,{validators:[Validators.required,Validators.maxLength(180)]}),
     option : new FormArray([
-      new FormControl('',[Validators.maxLength(180),Validators.required]),
-      new FormControl('',[Validators.maxLength(180),Validators.required]),
-      new FormControl('',[Validators.maxLength(180),Validators.required]),
-      new FormControl('',[Validators.maxLength(180),Validators.required])
+      new FormControl('',[Validators.maxLength(180)]),
+      new FormControl('',[Validators.maxLength(180)]),
+      new FormControl('',[Validators.maxLength(180)]),
+      new FormControl('',[Validators.maxLength(180)])
     ])
   });
 
   ngOnInit(): void {
   this.course_service.getModuleAssignToFormer().subscribe(data=>{
     console.log(data);
-    this.domain = data.my_domain;
+    this.domaine = data.my_domain;
     this.list_modules = data.my_modules;
   })
   }
 
-  onCheckSelectNumber(domain: string) {
-    const number = domain;
-    this.displayChapter = domain;
+  onCheckSelectNumber(domaine: string) {
+    const number = domaine;
+    this.displayChapter = domaine;
     console.log(this.displayChapter);
   }
 
   onCourseChange(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({ course: file});
+    this.form.patchValue({ cours: file});
   }
   onTpChange(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
@@ -72,63 +72,48 @@ export class AddCourseComponent implements OnInit,OnDestroy {
   onImageChange(event: Event) {;
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({image:file});
-    const read = new FileReader();
-    read.readAsDataURL(file);
-    read.onload = ()=>{
-      this.imagepreview = read.result;
-    }
   }
 
   public get option(){
     return this.form.get("option") as FormArray;
   }
 
-
-
   onOptionChange($event:Event){
     const val = $event.target as HTMLInputElement;
     const value = val.value;
-
-    this.form.value.answer = this.form.value.option[value];
-    console.log(this.form.value.option[value] +"  "+this.form.value.answer);
+    this.form.value.reponse = this.form.value.option[value];
+    console.log(this.form.value.option[value] +"  "+this.form.value.reponse);
   }
 
   clickfunction(){
 
-    this.form.value.domain = this.domain.name_domain;
-   // this.forma.value.option="option";
-   /* if (this.forma.invalid) {
-      console.log("invalid",this.forma.value.question,this.forma.value.option,this.forma.value.answer,"----",this.forma.invalid.valueOf());
+    this.form.value.domaine = this.domaine.name_domain;
+    if (this.form.value.question  === null || this.form.value.option  === null) {
       return;
-    }*/
+    }
 
-   /*  if (this.cmp==2) {
-      this.button = "save";
-    }*/
-
-
-    if (this.cmp < 10) {
+    this.cmp += 1;
+    if (this.cmp <= 10) {
       this.question = {id_question:null,_question:this.form.value.question,_options:this.form.value.option,
-        _response:this.form.value.answer,_score:null,id_course:null}
+        _response:this.form.value.reponse,_score:null,id_course:null}
         this.tab_question.push(this.question);
         console.log(this.question);
         this.form.patchValue({question:null});
         this.form.patchValue({option:[null,null,null,null]});
 
-    }else{
+    }
+    if(this.cmp == 10){
       console.log(this.tab_question);
-
-      this.course_service.AddCourse(this.form.value.title,this.form.value.description,this.form.value.price,
-        this.form.value.domain,this.form.value.module,this.form.value.course,this.form.value.tp,this.form.value.image).subscribe(data =>{
+      this.course_service.AddCourse(this.form.value.titre,this.form.value.description,this.form.value.prix,
+        this.form.value.domaine,this.form.value.filiere,this.form.value.cours,this.form.value.tp,this.form.value.image).subscribe(data =>{
           for (let i = 0; i < this.tab_question.length; i++) {
             this.course_service.addQuetionQCM(this.tab_question[i]._question,this.tab_question[i]._options,
               this.tab_question[i]._response,data.id);
           }
         });
-        //alert("pop");
       this.route.navigate(['/Course_create']);
     }
-    this.cmp += 1;
+
   }
   ngOnDestroy(): void {
 

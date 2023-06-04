@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule,Routes } from "@angular/router";
-import { AddCourseComponent } from "./AjouterCours/AjouterCours.Component";
+import { AddCoursComponent } from "./AddCours/AddCours.Component";
 import { ListCourseComponent } from "./ListCourse/ListCourse.component";
 import { AddQCMComponent } from "./AddQCM/AddQCM.component";
 import { DisplayCourse } from "./Display_course/display.component";
 import { MyCoursesComponent } from "./MyCourses/MyCourses.component";
 import { MyLearnersComponent } from "./MyLearners/myLearners.component";
-import { AddFormerComponent } from "./AddFormer/addformer.component";
+import { AddFormateurComponent } from "./AddFormateur/addformateur.component";
 import { GetUserComponent } from "./Trainers/trainers.component";
 import { ManageTrainerComponent } from "./ManageTraining/manageTrainer.component";
 import { QuizComponent } from "./Quiz/quiz.component";
@@ -21,12 +21,12 @@ const routes: Routes =[
   {path:'', component: BodyComponent },
   {path:'courses', component: ListCourseComponent },
   {path:'search/:name',component:ListCourseComponent},
-  {path:'add_course' , component: AddCourseComponent, canActivate : [AuthGuard] },
+  {path:'add_course' , component: AddCoursComponent, canActivate : [AuthGuard] },
   {path: 'QCM',component:AddQCMComponent, canActivate : [AuthGuard] },
   {path:'courses_created',component:ListCourseComponent, canActivate : [AuthGuard] },
   {path:'display/:id',component:DisplayCourse, canActivate : [AuthGuard] },
   {path:'MyCourses',component:MyCoursesComponent, canActivate : [AuthGuard] },
-  {path:'add_former',component:AddFormerComponent, canActivate : [AuthGuard] },
+  {path:'add_former',component:AddFormateurComponent, canActivate : [AuthGuard] },
   {path:'get_trainers',component:GetUserComponent, canActivate : [AuthGuard] },
   {path:'get_students',component:MyLearnersComponent, canActivate : [AuthGuard] },
   {path:'manage_training',component:ManageTrainerComponent, canActivate : [AuthGuard] },

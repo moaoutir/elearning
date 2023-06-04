@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const AuthPage = require('../middelware/check_authorisation');
+const AuthPage = require('./check_pemision_course');
 
 module.exports = (permission)=>{
   return (req,rep,next)=>{
@@ -15,10 +15,12 @@ module.exports = (permission)=>{
         if (permission.includes(req.userData.role)) {
           console.log("prmission",permission);
           next();
+        }else{
+          rep.status(401).json({message : "unauthorized"});
         }
       }
   }catch(error){
-      rep.status(401).json({message : "unauthorized1"});
+      rep.status(401).json({message : "unauthorized"});
       //console.log("unauthorized1");
     }
 }

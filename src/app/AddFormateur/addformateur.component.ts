@@ -8,10 +8,10 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'add_former',
-  templateUrl: './addformer.component.html',
-  styleUrls: ['./addformer.component.css']
+  templateUrl: './addformateur.component.html',
+  styleUrls: ['./addformateur.component.css']
 })
-export class AddFormerComponent implements OnInit,OnDestroy {
+export class AddFormateurComponent implements OnInit,OnDestroy {
 
   constructor(public login_service:loginService,private course_service:CourseService ,private route: Router) {}
   type:string = "former";
@@ -26,8 +26,8 @@ export class AddFormerComponent implements OnInit,OnDestroy {
   }
 
   form: FormGroup = new FormGroup({
-    firstName : new FormControl(null,{validators:[Validators.maxLength(30),Validators.required]}),
-    lastName : new FormControl(null,{validators:[Validators.maxLength(30),Validators.required]}),
+    prenom : new FormControl(null,{validators:[Validators.maxLength(30),Validators.required]}),
+    nom : new FormControl(null,{validators:[Validators.maxLength(30),Validators.required]}),
     email : new FormControl(null,{validators:[Validators.maxLength(30),Validators.required,Validators.email]}),
     password : new FormControl(null,{validators:[Validators.maxLength(30),Validators.required]}),
     login : new FormControl(null,{validators:[Validators.maxLength(30),Validators.required]}),
@@ -61,7 +61,7 @@ export class AddFormerComponent implements OnInit,OnDestroy {
     }
     let array_id_module:number[]=[];
     this.login_service.addNewLogin(this.form.value.login,this.form.value.email,this.form.value.password,
-      this.form.value.firstName,this.form.value.lastName,this.type);
+      this.form.value.prenom,this.form.value.nom,this.type);
       const domain = this.getDomain(this.form.value.domain);
       const module = this.list_module.filter(elm => this.form.value.module.includes(elm.name_module))
       for (let j = 0; j< module.length; j++) {

@@ -6,7 +6,7 @@ var mysql = require('mysql');
 var fs = require('fs');
 const { error } = require('console');
 const ValidateJWB = require('../middelware/check_authenticate');
-const AuthPage = require('../middelware/check_authorisation');
+const authorization = require('../middelware/check_pemision_course');
 
 const MIME_TYPE_MAP = {
   'image/png' : 'png',
@@ -67,7 +67,7 @@ router.post('/',ValidateJWB('former'),multer({storage : storage}).fields([{ name
 
 //apres avoir ajoute l'authentification on doit chercher les id des cours selon instructeur puis chercher
 // dans la table mycourses les id des coures
-router.get('/MyCourses/:user',ValidateJWB('former administrator'),(req,rep,next)=>{
+router.get('/MyCourses/:user',ValidateJWB("administrator former"),(req,rep,next)=>{
   if (req.params.user == "null") {
     con.query("SELECT _titleCours,_price,_domain,_module,_login FROM my_course INNER JOIN login ON my_course.user = login._login INNER JOIN courses ON courses._id = my_course.id_course WHERE courses._creator = ?",[req.userData.login],(erreur,resultat)=>{
       if (erreur) {
@@ -136,21 +136,58 @@ router.get('/MycourseCreate',ValidateJWB('former'),(req,rep,next)=>{
   })
 })
 // a verifier s'il faut ajouter le ValidateJWB
-router.get('/:id',ValidateJWB("student former"),(req,rep,next)=>{
-  con.query("SELECT * FROM courses WHERE _id = ?",[req.params.id],(erreur,resultat1)=>{
+
+function type_of_user(id,rep) {
+  con.query("SELECT * FROM courses WHERE _id = ?",[id],(erreur,resultat1)=>{
     if (erreur) {
       console.log(erreur);
-    }else
+    }
       if (resultat1.length > 0) {
         con.query("SELECT _firstName, _lastName FROM login WHERE _login = ?",[resultat1[0]._creator],(erreur,resultat2)=>{
           if (erreur) {
             console.log(erreur);
+
           }
-          console.log(resultat1);
-          rep.json({course:resultat1[0],instructor:resultat2[0]})
+            rep.json({course:resultat1[0],instructor:resultat2[0]})
         })
-      }
+      }else
+        rep.status(401).json({message:"failed"})
   })
+}
+
+router.get('/:id',ValidateJWB('former student'),(req,rep,next)=>{
+
+  if (req.userData.role === "student") {
+    con.query("SELECT id_course FROM my_course WHERE user = ?",[req.userData.login],(erreur,resultat)=>{
+      if (erreur) {
+        console.log(erreur);
+      }
+      for (let i = 0; i < resultat.length; i++) {
+        if (resultat[i].id_course == req.params.id) {
+          type_of_user(req.params.id,rep);
+          break;
+        }
+      }
+    })
+  }else if(req.userData.role === "former"){
+    let  i;
+    con.query("SELECT _id FROM courses WHERE _creator = ?",[req.userData.login],(erreur,resultat)=>{
+      if (erreur) {
+        console.log(erreur);
+      }
+      console.log(resultat);
+      for (i = 0; i < resultat.length; i++) {
+        if (resultat[i]._id == req.params.id) {
+          type_of_user(req.params.id,rep);
+          break;
+        }
+      }if(i == resultat.length)
+      rep.status(404).json({message: "unauthorized"})
+    })
+
+  }else
+     rep.status(404).json({message: "unauthorized"})
+
 })
 
 
@@ -186,7 +223,7 @@ router.delete('/:id',ValidateJWB("former administrator"),(req,rep,next)=>{
 //
 
 router.get((req,rep,next)=>{
-  rep.send("dddd")
+  rep.send("connecte ...")
   console.log("connecte ...");
 })
 

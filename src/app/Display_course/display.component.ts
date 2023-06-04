@@ -1,5 +1,5 @@
 import { Component,OnInit } from '@angular/core';
-import { ActivatedRoute  } from "@angular/router";
+import { ActivatedRoute, Router  } from "@angular/router";
 import { CourseService } from "../Course.service";
 import { Course } from "../Course.module";
 import { DomSanitizer } from '@angular/platform-browser';
@@ -19,7 +19,8 @@ export class DisplayCourse implements OnInit {
   url1;
   url2;
   instructor:string ="";
-  constructor(public route :ActivatedRoute,public course_service : CourseService,protected _sanitizer: DomSanitizer,private login_service:loginService){}
+  constructor(public route :ActivatedRoute,public course_service : CourseService,protected _sanitizer: DomSanitizer,private login_service:loginService,
+    private router:Router){}
 
   ngOnInit(): void {
     console.log("kkdkd");
@@ -35,6 +36,8 @@ export class DisplayCourse implements OnInit {
         this.url1=this._sanitizer.bypassSecurityTrustResourceUrl(this.display_course._course as string);
         this.url2=this._sanitizer.bypassSecurityTrustResourceUrl(this.display_course._tp as string);
 
+      },error=>{          // on navigue vers la page d'aceuil si le cours n'est pas autorise
+        this.router.navigate(['/']);
       })
     })
   }
