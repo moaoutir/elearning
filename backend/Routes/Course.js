@@ -137,6 +137,27 @@ router.get('/MycourseCreate',ValidateJWB('former'),(req,rep,next)=>{
 })
 // a verifier s'il faut ajouter le ValidateJWB
 
+
+router.get('/count',(req,rep,next)=>{
+  con.query("SELECT count(*) AS count FROM courses",(erreur,resultat1)=>{
+    if (erreur) {
+      console.log(erreur);
+    }
+    con.query("SELECT count(*) AS count FROM login WHERE _role = ?",["former"],(erreur,resultat2)=>{
+      if (erreur) {
+        console.log(erreur);
+      }
+      con.query("SELECT count(*) AS count FROM login WHERE _role = 'student'",(erreur,resultat3)=>{
+        if (erreur) {
+          console.log(erreur);
+        }
+        rep.json({cours:resultat1,formers:resultat2,students:resultat3})
+      })
+    })
+  })
+})
+
+
 function type_of_user(id,rep) {
   con.query("SELECT * FROM courses WHERE _id = ?",[id],(erreur,resultat1)=>{
     if (erreur) {
@@ -191,6 +212,8 @@ router.get('/:id',ValidateJWB('former student'),(req,rep,next)=>{
 })
 
 
+
+
 router.get('/search/:name',(req,rep,next)=>{
   var keyword = ("%"+req.params.name+"%")
   con.query("SELECT * FROM courses WHERE _titleCours LIKE ? ",[keyword],(erreur,resultat)=>{
@@ -200,6 +223,8 @@ router.get('/search/:name',(req,rep,next)=>{
     rep.json({liste_cours: resultat})
   })
 })
+
+
 
 router.delete('/:id',ValidateJWB("former administrator"),(req,rep,next)=>{
   console.log(req.params.id," delete");
@@ -221,6 +246,8 @@ router.delete('/:id',ValidateJWB("former administrator"),(req,rep,next)=>{
   })
 })
 //
+
+
 
 router.get((req,rep,next)=>{
   rep.send("connecte ...")

@@ -210,4 +210,11 @@ export class CourseService{
     console.log(email);
     this.http.post("http://localhost:3000/email",email).subscribe();
    }
+
+
+   getCount(){
+    console.log("kjj");
+
+    return this.http.get<{cours:number,formers:number,students:number}>("http://localhost:3000/course/count");
+   }
 }

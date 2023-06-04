@@ -36,7 +36,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from "./header/header.component";
 import { AddCoursComponent } from "./AddCours/AddCours.Component";
 import { ListCourseComponent } from "./ListCourse/ListCourse.component";
-import { AddQCMComponent } from "./AddQCM/AddQCM.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DisplayCourse } from "./Display_course/display.component";
 import { MyLearnersComponent } from "./MyLearners/myLearners.component";
@@ -66,7 +65,6 @@ import { EmailComponent } from "./Email/email.component";
     AppComponent,
     AddCoursComponent,
     ListCourseComponent,
-    AddQCMComponent,
     DisplayCourse,
     MyLearnersComponent,
     AddFormateurComponent,
