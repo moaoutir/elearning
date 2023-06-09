@@ -27,7 +27,6 @@ export class HeaderComponent implements OnInit,OnDestroy {
 
     } else {
       this.header = false;
-
     }
   }
 
@@ -40,14 +39,10 @@ export class HeaderComponent implements OnInit,OnDestroy {
   }
 
   ClickSearch($event : any|string){
-    console.log(this.form.value.input ,"  ", $event.key);
     if($event.key === "Enter"){
     if (this.form.value.input == null) {
       return;
     }
-    console.log("Kkk");
-
-
     const input = this.form.value.input;
     this.functionClick2();
     this.route.navigate(['/search',input]);

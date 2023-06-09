@@ -15,7 +15,6 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./manageTrainer.component.css']
 })
 export class ManageTrainerComponent implements OnInit,OnDestroy{
-  @ViewChild(MatTable) table: MatTable<any>;
   isDisabled = true;
   TotalDomain: number;
   form: FormGroup;
@@ -27,25 +26,26 @@ export class ManageTrainerComponent implements OnInit,OnDestroy{
   list_domain:Domain[];
   list_module:Module[]=[];
   list_module_null:Module[]=[];
-  list_module_sub:Subscription = new Subscription();
-
+  list_domain_sub:Subscription = new Subscription();
   selectable = true;
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
+
   constructor(private course_service: CourseService,private cdr: ChangeDetectorRef){
     this.form =  new FormGroup({
       domain: new FormControl(null, {
         validators: [Validators.required, Validators.maxLength(30)],})
     });
+
     this.dataSource= new MatTableDataSource(this.list_domain);
   }
 
   ngOnInit(): void {
     this.course_service.getDomains();
-    this.list_module_sub = this.course_service.getUpdateDomain().subscribe((data: Domain[]) =>{
+    this.list_domain_sub = this.course_service.getUpdateDomain().subscribe((data: Domain[]) =>{
       this.list_domain = data;
-
       this.TotalDomain = this.list_domain.length;
     });
 
@@ -85,23 +85,25 @@ export class ManageTrainerComponent implements OnInit,OnDestroy{
     const module = event.name_domain;
     this.name_module = event.name_domain
     this.id_module = this.get_domain_id(module);
-    this.course_service.getModule(this.id_module).subscribe(data=>{
+    this.course_service.getfilieres(this.id_module).subscribe(data=>{
       this.list_module=data.list_module;
     })
   }
 
   DeleteDomain(event: any){
+    console.log(event.name_domain);
+
     const module = event.name_domain;
     const id = this.get_domain_id(module);
-    this.course_service.deleteDomain(parseInt(id));
+    this.course_service.deleteDomain(event.name_domain);
     this.list_module = [];
     this.name_module="Select a domain";
     this.isDisabled = true;
     }
 
   saveModule(){
-    if (this.list_module.length==0 ) {
-      this.list_module_null.push({_id:null,id_domain:this.id_module,name_module:null})
+    if (this.list_module.length == 0) {
+      this.list_module_null.push({_id:null, id_domain:this.id_module, name_module:null})
       this.course_service.addModule(this.list_module_null);
       this.list_module_null=[];
     }else if(this.list_module[0].id_domain !== null){
@@ -119,7 +121,7 @@ export class ManageTrainerComponent implements OnInit,OnDestroy{
   }
 
   ngOnDestroy(): void {
-    this.list_module_sub.unsubscribe();
+    this.list_domain_sub.unsubscribe();
   }
 
 }

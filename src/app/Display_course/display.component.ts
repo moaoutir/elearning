@@ -23,14 +23,10 @@ export class DisplayCourse implements OnInit {
     private router:Router){}
 
   ngOnInit(): void {
-    console.log("kkdkd");
-
     this.route.paramMap.subscribe(paramap=>{
-      this.id = paramap.get('id');
-      console.log("jj",this.id);
+      this.id = paramap.get('id'); // on recupere id du cour depuis l'url
 
       this.course_service.getCourse(parseInt(this.id)).subscribe(data =>{
-        console.log("dd",data);
         this.display_course = data.course;
         this.instructor = data.instructor._firstName + " " +data.instructor._lastName;
         this.url1=this._sanitizer.bypassSecurityTrustResourceUrl(this.display_course._course as string);

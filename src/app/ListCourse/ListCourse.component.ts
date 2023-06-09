@@ -29,9 +29,9 @@ export class ListCourseComponent implements OnInit {
   this.route.paramMap.subscribe(paramMap=>{
     if (paramMap.has('name')) {
       this.nom_du_cour_cherche = paramMap.get('name');
-      this.course_service.get_courses_by_name(this.nom_du_cour_cherche).subscribe(data=>{
+      this.course_service.search_courses_by_name(this.nom_du_cour_cherche).subscribe(data=>{
         this.courses = data.liste_cours;
-        this.nbr_cours_trouve = this.courses.length;
+        this.nbr_cours_trouve = this.courses.length; // on va l'utilise pour afficher le nombre de cours cherche
       })
       this.path = "search";
     }else{
@@ -42,20 +42,20 @@ export class ListCourseComponent implements OnInit {
     }
   })
   // on ajoute ce traitement pour ne pas afficher le boutton acheter 50% en cas ou l'utilisateur a deja achete ce cours
-  this.course_service.getFromMyCoursesByUser().subscribe(data=>{
+  this.course_service.getFromMyCoursesByLearner().subscribe(data=>{
     this.my_course = data.my_learning;
     for (let i = 0; i < this.my_course.length; i++)
-      this.tab_id_my_course[i] = this.my_course[i].id_course;
-    console.log(!this.tab_id_my_course.includes(this.courses[0]?._id),"  ",this.courses[0],"  ",this.tab_id_my_course);
-
+      this.tab_id_my_course[i] = this.my_course[i].id_course; // on aura besoin sauf de l'id de cours
   })
-  this.role = this.login_service.HasRole();
+  this.role = this.login_service.HasRole(); // sauf l'apprenant a le droit d'acheter un cours
   }
+
+
   openDialog() {
     const dialogRef = this.dialog.open(PayControlComponent);
   }
 
-  send_id_course(id){
+  set_id_course(id){
     this.course_service.setIdCourse(parseInt(id));
   }
 }

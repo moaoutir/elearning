@@ -10,7 +10,7 @@
 <div style="text-align: center; width: 95%; margin: 0 auto; background-color: rgb(251, 255, 255);">
   <div class="erreur" *ngIf=" path === 'search'">
     <div *ngIf="courses?.length<= 0">
-      <span class="material-icons icon">sentiment_very_dissatisfied</span>
+      <span class="material-icons icon">sentiment_very_dissatisfied</span><!-- sentiment_very_dissatisfied -->
     </div>
 
   </div>
@@ -35,7 +35,7 @@
           <p>{{course._description}}</p>
         </div>
         <div *ngIf="role === 'student' && !this.tab_id_my_course.includes(course?._id)" style="cursor: pointer;"
-          class="course-buy" (click)="openDialog()" (click)="send_id_course(course._id)">
+          class="course-buy" (click)="openDialog()" (click)="set_id_course(course._id)">
           <button style="background-color: transparent; border: 0px; color: white;cursor: pointer;">Acheter 50%</button>
         </div>
       </div>

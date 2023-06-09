@@ -17,7 +17,6 @@ import { EmailComponent } from "../Email/email.component";
 })
 export class GetUserComponent implements OnInit,OnDestroy {
   displayedColumns: string[] = ['edit','_firstName','_lastName','_login','_email','Domain','filière'];
-  //display
   dataSource = new MatTableDataSource();
   selection = new SelectionModel(true, []);
   list_users:Login[]=[];
@@ -37,23 +36,20 @@ export class GetUserComponent implements OnInit,OnDestroy {
 
 
   ngOnInit() {
-    console.log(this.route.url);
     this.login_service.getFormer();
-    this.list_users_sub = this.login_service.getUpdateUser().subscribe((login: Login[])=>{
+    this.list_users_sub = this.login_service.getUpdateFormer().subscribe((login: Login[])=>{
       this.list_users = login;
       this.list_users_filter = login;
-
     })
+
     this.course_service.getDomains();
     this.list_domain_sub = this.course_service.getUpdateDomain().subscribe((domains: Domain[])=>{
       this.list_domains = domains;
     })
-    this.course_service.getModuleAssignToAllFormer().subscribe(data=>{
-      console.log(data);
 
+    this.course_service.getModuleAssignToAllFormer().subscribe(data=>{
       this.list_my_domain = data.list_my_domain;
       this.list_my_modules = data.list_my_modules;
-
     });
 
   }
@@ -67,16 +63,12 @@ export class GetUserComponent implements OnInit,OnDestroy {
   functionDelete(row:any){
     const user = row._login;
     this.login_service.deleteUser(user);
-    this.course_service.getFromMyCoursesByCourse(user)/*.subscribe(data=>{
+    this.course_service.getFromMyCoursesByFormer(user)/*.subscribe(data=>{
       for (let i = 0; i < data.resultats.length; i++) {
         console.log(data.resultats[i]._id);
         this.course_service.deleteCourse(data.resultats[i]._id);
       }
     })*/
-    this.liste_mes_cours_sub = this.course_service.getMesCoursUpdate().subscribe((data:MyCourses[])=>{
-      console.log(data);
-
-    })
   }
 
   getDomainSelected(event: any){
@@ -86,47 +78,38 @@ export class GetUserComponent implements OnInit,OnDestroy {
       this.module_selected = undefined;
     }else{
     let domain = this.list_domains.filter(elm => elm.name_domain === this.domain_selected);
-    this.course_service.getModule(domain[0].id).subscribe(data=>{
+    this.course_service.getfilieres(domain[0].id).subscribe(data=>{
       this.list_modules = data.list_module;
     })
-    domain = [];
-   }
+  }
   }
 
   getModuleSelected(event:any){
     this.module_selected = event.value;
   }
 
-  Domain(domain_selected:string){
-    const domain = this.list_my_domain.filter(elm => elm.name_domain === domain_selected)
-    let users:string[]=[];
-    for (let i = 0; i < domain.length; i++) {
-      users[i] = domain[i].user
-    }
-    return this.list_users.filter(elm => users.includes(elm._login));
-  }
-
-  Module(module_selected:string){
-    //let users_by_domain = this.Domain(domain_selected);
-    // on selectionne les modules qui ont le nom qu'on cherche
-    const modules = this.list_my_modules.filter(elm => elm.name_module === module_selected)
-    let users:string[]=[];
-    for (let i = 0; i < modules.length; i++) {
-      users[i] = modules[i].user
-    }
-    return this.list_users.filter(elm => users.includes(elm._login));
-  }
 
   search(){
-
-    console.log(this.list_users_filter);
 
     if (this.domain_selected == undefined && this.module_selected==undefined) {
       this.list_users_filter = this.list_users;
     }else if(this.module_selected == undefined){
-      this.list_users_filter = this.Domain(this.domain_selected)
+      // list_my_domain { id_domain name_domain  user _id}
+      const domain = this.list_my_domain.filter(elm => elm.name_domain === this.domain_selected)
+      let users:string[]=[];
+      for (let i = 0; i < domain.length; i++) {
+        users[i] = domain[i].user
+    }
+    this.list_users_filter = this.list_users.filter(elm => users.includes(elm._login));
     }else{
-      this.list_users_filter = this.Module(this.module_selected)
+      // list_my_modules {id_domain  name_module  user}
+      // on cherche de la table list_my_modules qui ont le nom module_selected qu'on cherche
+      const modules = this.list_my_modules.filter(elm => elm.name_module === this.module_selected)
+      let users:string[]=[];
+      for (let i = 0; i < modules.length; i++) {
+        users[i] = modules[i].user
+      }
+      this.list_users_filter = this.list_users.filter(elm => users.includes(elm._login));
     }
   }
   ngOnDestroy(): void {

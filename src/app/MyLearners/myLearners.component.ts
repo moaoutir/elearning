@@ -26,7 +26,7 @@ export class MyLearnersComponent implements OnInit,OnDestroy {
   list_domains:Domain[]=[];
   domain_selected:string;
   list_domain_sub:Subscription = new Subscription();
-  liste_mes_cours_sub:Subscription = new Subscription();
+  liste_my_courses_sub:Subscription = new Subscription();
   list_modules:Module[]=[];
   module_selected:Module;
   total_course:number;
@@ -37,49 +37,54 @@ export class MyLearnersComponent implements OnInit,OnDestroy {
   constructor(public course_service : CourseService, public route : Router,private login_service:loginService, private _bottomSheet:MatBottomSheet) {}
 
   ngOnInit() {
-    if (this.route.url === "/MyCourses") {
+    if (this.route.url === "/Mylearners") {
       this.type_of_user="former";
-      this.course_service.getFromMyCoursesByCourse(null);
-      this.liste_mes_cours_sub = this.course_service.getMesCoursUpdate().subscribe((data:MyCourses[])=>{
+      this.course_service.getFromMyCoursesByFormer(null); //On cherche des cours que nos étudiants ont achetés et qui ont ete cree par ce formateur de la table my courses
+      this.liste_my_courses_sub = this.course_service.getMesCoursUpdate().subscribe((data:MyCourses[])=>{
         this.myCourses = data;
         this.mycourse_filter = data;
         this.total_course = this.mycourse_filter.length;
-        console.log(data);
       })
+
       this.course_service.getModuleAssignToFormer().subscribe(data=>{
         this.list_modules = data.my_modules;
         this.domain_selected = data.my_domain.name_domain; // ici on affecte au domain_selected le domain qui a ete affecte au formateur
         // car on aura besoin dans la fonction search
       })
+
       this.text_header = "Mes apprenants et leurs cours";
 
     }else if (this.route.url === "/get_students") {
       this.type_of_user="administrator";
-      this.course_service.getFromMyCoursesByAdmin();
-      this.liste_mes_cours_sub = this.course_service.getMesCoursUpdate().subscribe((data:MyCourses[])=>{
+      this.course_service.getFromMyCoursesByAdmin(); // Nous recherchons des cours que nos étudiants ont achetés et qui sont cree par tous nos formateur de la table my courses
+      this.liste_my_courses_sub = this.course_service.getMesCoursUpdate().subscribe((data:MyCourses[])=>{
         this.myCourses = data;
         this.mycourse_filter = data;
         this.total_course = this.mycourse_filter.length;
-        console.log(data);
       })
+
       this.course_service.getDomains();
       this.list_domain_sub = this.course_service.getUpdateDomain().subscribe((data : Domain[])=>{
         this.list_domains = data;
       })
       this.text_header = "Liste des apprenants et leurs cours"
     }
+
+    // pour affiche les etudinats certifie ou non
     this.course_service.get_all_Certificats().subscribe(data=>{
       this.certificate = data.certificates;
-      console.log(data.certificates);
-
     })
 
   }
+
+
   functionDelete(row:any){
     const user = row._login;
     this.login_service.deleteUser(user);
     this.course_service.SupprimerDeMesCours(user); // on doit faire un update de MesCours quand on supprime un utilisateur
   }
+
+
     // on gere le BottomSheet
   openBottomSheet(row:any): void {
     this.login_service.getEmailOfuser(row._login).subscribe(data=>{
@@ -95,9 +100,10 @@ export class MyLearnersComponent implements OnInit,OnDestroy {
       this.list_modules=[];
       this.module_selected = undefined;
     }else{
-    let domain = this.list_domains.filter(elm => elm.name_domain === this.domain_selected);
-    this.course_service.getModule(domain[0].id).subscribe(data=>{
-      this.list_modules = data.list_module;
+      // o aura besoin de l'id de domaine pour afficher les modules
+      let domain = this.list_domains.filter(elm => elm.name_domain === this.domain_selected);
+      this.course_service.getfilieres(domain[0].id).subscribe(data=>{
+        this.list_modules = data.list_module;
     })
     domain = [];
    }
@@ -107,18 +113,18 @@ export class MyLearnersComponent implements OnInit,OnDestroy {
   }
 
   search(){
-    console.log(this.domain_selected , this.module_selected );
     if (this.domain_selected == undefined && this.module_selected == undefined) {
       this.mycourse_filter = this.myCourses;
-    }else if (this.module_selected == undefined) {
+    }else if (this.module_selected == undefined) { // on cherche par domaine puisque le filiere est null
       this.mycourse_filter = this.myCourses.filter(elm => (elm._domain === this.domain_selected));
     }else // ici meme si on filtre par domain ca ne va pas poser un probleme car les cours affiche au formateur ont le meme domain que domain_selected
       this.mycourse_filter = this.myCourses.filter(elm => (elm._domain === this.domain_selected && elm._module === this.module_selected));
     this.total_course = this.mycourse_filter.length;
   }
+
   ngOnDestroy(): void {
     this.list_domain_sub.unsubscribe();
-    this.liste_mes_cours_sub.unsubscribe();
+    this.liste_my_courses_sub.unsubscribe();
   }
 
 }

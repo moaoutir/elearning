@@ -38,6 +38,9 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="selection.toggle(row)"></tr>
     <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
   </table>
+
+
+
   <br/>
   <div class="name_module">
     <p>{{ name_module }}</p>
@@ -46,9 +49,9 @@
   <div class="list_module">
     <mat-form-field class="example-chip-list">
       <mat-chip-list #chipList aria-label="Fruit selection">
-        <mat-chip *ngFor="let fruit of list_module" [selectable]="selectable" [removable]="removable"
-          (removed)="remove(fruit)">
-          {{ fruit.name_module }}
+        <mat-chip *ngFor="let item of list_module" [selectable]="selectable" [removable]="removable"
+          (removed)="remove(item)">
+          {{ item.name_module }}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
         <input [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [disabled]="isDisabled"

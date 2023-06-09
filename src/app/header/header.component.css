@@ -87,7 +87,6 @@
   border-bottom: 6px solid #4B9CD3;
 }
 .search_css{
- /* background-image: linear-gradient(to bottom, rgba(176, 176, 176, 0.478), rgba(0, 0, 0, 0.5));*/
  background-color: #E4E6EB;
   position:relative;
   top: 0;
@@ -99,15 +98,15 @@
 
 }
 
-.search .search_css{
+.searchclass .search_css{
   left: 0;
   transition: left 0.20s;
 
 }
-.search .div2{
+.searchclass .div2{
   visibility: hidden;
 }
-.search .div3{
+.searchclass .div3{
   visibility: hidden;
 }
 

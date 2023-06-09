@@ -47,18 +47,16 @@ router.get('/my_module',ValidateJWB('administrator former'),(req,rep,next)=>{
 })
 
 router.get('/listMy_module',ValidateJWB('administrator former'),(req,rep,next)=>{
-  console.log("lolll");
   con.query("SELECT name_domain,_id,id_domain,user FROM my_domain,domain WHERE domain.id = my_domain.id_domain",[],(erreur,resultat_domain)=>{
     if (erreur) {
       console.log(erreur);
-    }
+    }//on selectione le nom du module avec module._id = my_module.id_module et le user avec my_module.id_my_domain = my_domain._id
     con.query("SELECT name_module,user,module.id_domain FROM module,my_module,my_domain WHERE module._id = my_module.id_module and my_module.id_my_domain = my_domain._id",[],(erreur,resultat_module)=>{
       if (erreur) {
         console.log(erreur);
       }
       rep.json({list_my_domain:resultat_domain,list_my_modules:resultat_module})
     })
-
   })
 })
 
@@ -118,30 +116,27 @@ router.post('/my_module',ValidateJWB('administrator'),(req,rep,next)=>{
   })
 })
 
-router.delete('/domain/:id_domain',ValidateJWB('administrator'),(req,rep,next)=>{
-  con.query("DELETE FROM domain WHERE id = ?",[req.params.id_domain],(erreur,resultat)=>{
-    if (erreur)
-      console.log(erreur);
-    else{
-      con.query("DELETE FROM module WHERE id_domain = ?",[req.params.id_domain],(erreur,resultat)=>{
-        if (erreur) {
-          console.log(erreur);
-        }
-        con.query("SELECT * FROM domain ",[],(erreur,resultat1)=>{
+router.delete('/domain/:name',ValidateJWB('administrator'),(req,rep,next)=>{
+ con.query("SELECT * FROM domain WHERE name_domain = ?",[req.params.name],(erreur,domain)=>{
+  if (erreur) {
+    console.log(erreur);
+  }
+  if (domain.length>0) {
+    con.query("DELETE FROM domain WHERE name_domain = ?",[req.params.name],(erreur,resultat)=>{
+      if (erreur)
+        console.log(erreur);
+      else{
+        con.query("DELETE FROM module WHERE id_domain = ?",[domain[0].id],(erreur,resultat)=>{
           if (erreur) {
             console.log(erreur);
-          }else{
-            con.query("SELECT * FROM module ",[],(erreur,resultat2)=>{
-              if (erreur)
-                console.log(erreur);
-              else rep.json({list_domain: resultat1,list_module:resultat2})
-            })
           }
-
+          rep.json({message:"supprimer"})
         })
-      })
-    }
-  });
+      }
+    });
+  }
+
+ })
 })
 
 module.exports = router;

@@ -1,4 +1,4 @@
-<div  [class.search]="search">
+<div  [class.searchclass]="search">
 
   <div [class.div_1]="header" >
     <div [class.div1]="!header" >
@@ -57,7 +57,7 @@
           <img class="icon" src="../../assets/default-image/online-education.ico">
           <span class="span">ajouter un nouveau cours</span>
         </button>
-        <button mat-menu-item routerLink="/MyCourses" *ngIf="role==='former'">
+        <button mat-menu-item routerLink="/Mylearners" *ngIf="role==='former'">
           <mat-icon> format_list_bulleted</mat-icon>
           <span>liste des étudiants et leurs cours</span>
         </button>

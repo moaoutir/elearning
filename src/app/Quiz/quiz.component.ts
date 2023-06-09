@@ -1,4 +1,4 @@
-import { Component ,OnInit,HostListener} from '@angular/core';
+import { Component ,OnInit,OnDestroy} from '@angular/core';
 import { ActivatedRoute,Router  } from "@angular/router";
 import { CourseService } from "../Course.service";
 import { Question } from "../Course.module";
@@ -14,7 +14,7 @@ import {HttpHeaders} from  "@angular/common/http";
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.css']
 })
-export class QuizComponent implements OnInit{
+export class QuizComponent implements OnInit,OnDestroy{
   // on affiche une seule quetion donc on aura pas besoin d'un tableau par contre les options on va garder le meme tableau
   question: Question;
   list_questions: Question[]=[];
@@ -24,7 +24,6 @@ export class QuizComponent implements OnInit{
   tab_number = [];
   existNumber:boolean = false;
   cmp:number;
-  word:string = "next"
   intervalId: number | undefined;
   duration: number = 10 ; // Durée en secondes
   timer:number = this.duration;
@@ -41,7 +40,6 @@ export class QuizComponent implements OnInit{
 
   getRandomNumbers(): number[] {
     const numbers: number[] = [];
-
     while (numbers.length < 5) {
       const randomNumber = this.random(0,9)
       if (!numbers.includes(randomNumber)) {
@@ -55,8 +53,8 @@ export class QuizComponent implements OnInit{
     this.route.paramMap.subscribe(params => {
       const myParam = params.get('id');
       this.course_service.getQuiz(myParam).subscribe(data=>{
-        console.log(data);
         this.tab_number = this.getRandomNumbers();
+        console.log(this.tab_number.length);
         for (let i = 0; i < this.tab_number.length; i++) {
           this.list_questions.push(data.list_question[this.tab_number[i]]);
         }
@@ -67,8 +65,8 @@ export class QuizComponent implements OnInit{
       });
       this.id_course = parseInt(myParam);
     });
-
 }
+
 private start() {
   this.intervalId = window.setInterval(() => {
     if (this.timer == 0) {
@@ -87,55 +85,48 @@ private start() {
  }
 
   private nextQuestion(){
-    this.cmp--;
-    if (this.cmp<=1)
-      this.word="save"
     if (this.cmp > 0) {
       this.start();
       this.question = this.list_questions[this.cmp-1];
     }else{
       this.functionStatus();
     }
+    this.cmp--;
   }
 
   onChangeOption(response: string,event){
     console.log(event.value," response ",response);
     if (event.value === response) {
       console.log("true");
-      this.score += 3;
+      this.score += 4;
     }
-
   }
 
   functionStatus () {
     if (this.cmp <= 0) {
       this.correct_the_answers();
-    }else{
+    }else {
       this.update_Time_and_Question();
     }
   }
 
   correct_the_answers(){
-    if (this.score>=10) {
-      alert("you have passed, your score is "+this.score)
+    if (this.score>=15) {
+      alert("Félicitations! vous avez reussi votre score est: "+this.score)
       const score = this.score;
       this.course_service.getCourse(this.id_course).subscribe(data =>{
       this.course_service.CreateCertificate(data.course._titleCours,data.course._creator,score,data.course._id).subscribe((file) => {
       });
       this.router.navigate(['/MyCertificate']);
     })
-    //  window.open("	http://localhost:3000/images/certificate.1682546678588.pdf")
     }else{
-      alert("you have failed")
+      alert("Malheureusement vous avez échoué, votre score est :"+this.score)
+      this.router.navigate(['/MyLearning']);
+
     }
-    this.score = 0;
+    //this.score = 0;
   }
-
-
-  @HostListener('window:beforeunload')
-  doSomething() {
-    console.log("dd");
-
+  ngOnDestroy(): void {
     clearInterval(this.intervalId);
   }
 }

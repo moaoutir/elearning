@@ -48,7 +48,7 @@ export class CourseService{
 
     return this.http.get<{course : Course,instructor:Login}>("http://localhost:3000/course/"+id);
   }
-  get_courses_by_name(name: string){
+  search_courses_by_name(name: string){
     return this.http.get<{liste_cours:Course[]}>("http://localhost:3000/course/search/"+name)
   }
 
@@ -80,7 +80,7 @@ export class CourseService{
     this.http.post("http://localhost:3000/course/MyCourses",this.mon_cours).subscribe();
   }
 
-  getFromMyCoursesByCourse(user: string){
+  getFromMyCoursesByFormer(user: string){
     this.http.get<{mes_cours:any}>("http://localhost:3000/course/MyCourses/"+user).subscribe(data=>{
       this.mes_cours = data.mes_cours;
       this.MescoursUpdate.next([...this.mes_cours]);
@@ -94,7 +94,7 @@ export class CourseService{
     });
   }
 
-  getFromMyCoursesByUser(){
+  getFromMyCoursesByLearner(){
     return this.http.get<{my_learning:any}>("http://localhost:3000/course/Mylearning");
   }
 
@@ -112,6 +112,8 @@ export class CourseService{
   addDomain(name_domain: string){
     this.domain = {id:null,name_domain:name_domain}
     this.domains.push(this.domain);
+    console.log(this.domains);
+
     this.trainingUpdate.next([...this.domains]);
     this.http.post("http://localhost:3000/training/domain",this.domain).subscribe();
   }
@@ -123,10 +125,10 @@ export class CourseService{
     });
   }
 
-  deleteDomain(id_domain:number){
-    this.http.delete<{list_domain: Domain[],list_module:Module[]}>("http://localhost:3000/training/domain/"+id_domain).subscribe(()=>{
-      console.log(this.domains);
-      const updateTraining = this.domains.filter(elm => elm.id !== id_domain)
+  deleteDomain(name:string){
+    this.http.delete<{list_domain: Domain[],list_module:Module[]}>("http://localhost:3000/training/domain/"+name).subscribe(()=>{
+      const updateTraining = this.domains.filter(elm => elm.name_domain !== name);
+      console.log(updateTraining);
       this.domains = updateTraining;
       this.trainingUpdate.next([...this.domains]);
     });
@@ -156,7 +158,7 @@ export class CourseService{
     this.http.post("http://localhost:3000/training/module",list_module).subscribe();
   }
 
-  getModule(id_module: number){
+  getfilieres(id_module: number){
     return this.http.get<{list_module: Module[]}>("http://localhost:3000/training/module/"+id_module);
   }
 

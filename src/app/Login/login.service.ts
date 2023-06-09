@@ -22,6 +22,7 @@ export class loginService{
   addNewLogin(login :string,email:string, password:string, firstName:string, lastName:string, type:string){
     this.newLogin = {id: null,_firstName:firstName,_lastName:lastName,_login:login,_email:email,_password:password,_type:type};
     this.list_user.push(this.newLogin);
+    console.log(this.newLogin);
     this.UserUpdate.next([...this.list_user]);
     this.http.post("http://localhost:3000/login/sign_up",this.newLogin).subscribe();
     if(type === "student")
@@ -38,7 +39,7 @@ export class loginService{
     return this.http.get<{email: string}>("http://localhost:3000/login/get_email/"+user);
   }
 
-  getUpdateUser(){
+  getUpdateFormer(){
     return this.UserUpdate.asObservable();
   }
 

@@ -48,17 +48,14 @@ export class AddCoursComponent implements OnInit,OnDestroy {
 
   ngOnInit(): void {
   this.course_service.getModuleAssignToFormer().subscribe(data=>{
-    console.log(data);
+    console.log(data.my_domain);
     this.domaine = data.my_domain;
+    console.log(this.domaine," l");
+
     this.list_modules = data.my_modules;
   })
   }
 
-  onCheckSelectNumber(domaine: string) {
-    const number = domaine;
-    this.displayChapter = domaine;
-    console.log(this.displayChapter);
-  }
 
   onCourseChange(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
@@ -87,7 +84,9 @@ export class AddCoursComponent implements OnInit,OnDestroy {
 
   clickfunction(){
 
+
     this.form.value.domaine = this.domaine.name_domain;
+    console.log(this.form.value.domaine);
     if (this.form.value.question  === null || this.form.value.option  === null) {
       return;
     }

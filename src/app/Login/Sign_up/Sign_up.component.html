@@ -7,7 +7,7 @@
                   <table class="contenu" id="login">
                     <tr>
                       <td>
-                          <p style="text-align: left;">First name :</p>
+                          <p style="text-align: left;">Prénom :</p>
                       </td>
                     </tr>
                     <tr>
@@ -15,7 +15,7 @@
                       <td>
 
                         <mat-form-field style="width: 340px;">
-                          <mat-label >first name</mat-label>
+                          <mat-label >prénom</mat-label>
                           <input matInput formControlName="Firstname" >
                         </mat-form-field>
                        </td>
@@ -23,7 +23,7 @@
 
                     <tr>
                       <td>
-                          <p style="text-align: left;">Last name :</p>
+                          <p style="text-align: left;">Nom :</p>
                       </td>
                     </tr>
                     <tr>
@@ -31,7 +31,7 @@
                       <td>
 
                         <mat-form-field style="width: 340px;">
-                          <mat-label >last name</mat-label>
+                          <mat-label >nom</mat-label>
                           <input matInput formControlName="Lastname" >
                         </mat-form-field>
                        </td>
@@ -67,7 +67,7 @@
                             <input type="email" matInput formControlName="email"
                                placeholder="Ex. pat@example.com">
                         <mat-error *ngIf="form.hasError('email') && !form.hasError('required')">
-                          Please enter a valid email address
+                          S'il vous plaît, mettez une adresse email valide
                         </mat-error>
                         <mat-error *ngIf="form.hasError('required')">
                           Email is <strong>required</strong>
@@ -77,19 +77,19 @@
                     </tr>
                       <tr>
                           <td>
-                              <p style="text-align: left;">Password :</p>
+                              <p style="text-align: left;">Mot de passe :</p>
                           </td>
                       </tr>
                       <tr>
                           <td>  <mat-form-field style="width: 340px;">
-                            <mat-label >password</mat-label>
+                            <mat-label >mot de passe</mat-label>
                             <input matInput formControlName="password" type="password" >
                           </mat-form-field> </td>
                       </tr>
 
                       <br>
                       <tr>
-                          <td colspan="2" style="text-align: center;width: 300px ;" ><button class="loginbutton" type="submit">Sign Up</button></td>
+                          <td colspan="2" style="text-align: center;width: 300px ;" ><button class="loginbutton" type="submit">S'inscrire</button></td>
                       </tr>
 
                   </table>

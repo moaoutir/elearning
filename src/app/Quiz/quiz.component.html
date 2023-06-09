@@ -5,7 +5,7 @@
 
 <form [formGroup]="form"  #postform="ngForm">
 <br /><br /><br />
-<div style="text-align: center;width: 60%;margin: 0 auto;background-color: white;margin-bottom: 100px;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;" (window:beforeunload)="doSomething()">
+<div style="text-align: center;width: 60%;margin: 0 auto;background-color: white;margin-bottom: 100px;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
   <div style="width: 60px; padding: 4px; margin-bottom: 5px;"><div class="monitor"><p style=" margin-top: 16px;margin-right: 3px; margin-bottom: 10px; font-weight: bold;">{{ timer }}</p><mat-icon style="margin-top: 0px; height: 20px;">av_timer</mat-icon></div></div>
   <div class="dim"  >
     <p class="question">Question:  {{ question?._question }}</p>
@@ -20,7 +20,7 @@
   </div >
   <br>
   <div class="save">
-    <button mat-raised-button color="primary" style="width: 100px; margin-right: 0px;" (click)="functionStatus()" >{{word}}</button>
+    <button mat-raised-button color="primary" style="width: 100px; margin-right: 0px;" (click)="functionStatus()" >suivant</button>
   </div>
 </div>
 </form>

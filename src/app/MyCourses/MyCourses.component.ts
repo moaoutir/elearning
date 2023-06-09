@@ -24,16 +24,15 @@ export class MyCoursesComponent implements OnInit,OnDestroy{
     this.course_service.getModuleAssignToFormer().subscribe(data =>{
       this.list_modules = data.my_modules;
     })
-
+    // liste des cours cree
     this.course_service.getMyCourseCreate();
      this.list_course_sub = this.course_service.getCourseUpdate().subscribe((courses: Course[])=>{
        this.liste_course_filter = courses;
        this.list_course = courses;
      });
-
     }
 
-  getModuleSelected(event){
+  getModuleSelected(event){ // le module selectionne par la liste select
     this.module_selected = event.value
   }
 
@@ -46,8 +45,6 @@ export class MyCoursesComponent implements OnInit,OnDestroy{
 
   Functiondelete(id: number){
     this.course_service.deleteCourse(id);
-    console.log(this.list_course);
-
   }
 
   ngOnDestroy(): void {

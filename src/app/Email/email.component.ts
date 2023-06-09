@@ -13,12 +13,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./email.component.css']
 })
 export class EmailComponent implements OnInit{
-  //title = 'project';
   constructor(private login_service :loginService,private course_service :CourseService,private _bottomSheetRef: MatBottomSheetRef){}
-  // openBottomSheet(): void {
-  //   this._bottomSheet.open(GetUserComponent);
-  //   this._bottomSheet.open(MyCoursesComponent);
-  // }
+
   form: FormGroup = new FormGroup({
     subject: new FormControl(null, {validators: [Validators.required, Validators.maxLength(40)],}),
     text: new FormControl(null, {validators: [Validators.required, Validators.maxLength(120)],}),
@@ -27,12 +23,12 @@ export class EmailComponent implements OnInit{
   }
 
   sendEmail(){
-   /* if (this.form.invalid) {
+    if (this.form.invalid) {
       this._bottomSheetRef.dismiss();
       return;
-    }*/
-    const email_destinataire = this.course_service.getEmail();
-    this.course_service.sendEmail(this.form.value.subject,this.form.value.text,email_destinataire)
+    }
+    const email_destinataire = this.course_service.getEmail(); // on recupere l'email de distinataire
+    this.course_service.sendEmail(this.form.value.subject,this.form.value.text,email_destinataire)// l'email de l'emeteur on va le reuperer depuis le token
     // pour fermer la boite
     this._bottomSheetRef.dismiss();
   }

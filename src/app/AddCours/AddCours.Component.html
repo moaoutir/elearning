@@ -31,50 +31,27 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field
-        appearance="fill"
-        style="width: 400px; margin-bottom: 0px">
-        <mat-label>Type du cours</mat-label>
-        <mat-select (selectionChange)="onCheckSelectNumber($event.value)">
-          <mat-option *ngFor="let item of typeCourses" [value]="item">
-            {{ item }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div style="margin-bottom: 85px" *ngIf="displayChapter === 'pdf'">
+      <div style="margin-bottom: 85px">
         <div class="image" style="margin-bottom: 45px; height: 0px">
           <button
             mat-stroked-button
             type="button"
             (click)="filepicker.click()"
             style="width: 400px; background-color: rgb(144, 144, 144)">
-            Pick pdf course
+            donner le cours pdf
           </button>
           <input type="file" (change)="onCourseChange($event)" #filepicker />
         </div>
       </div>
 
-      <div style="margin-bottom: 85px" *ngIf="displayChapter === 'video'">
+      <div style="margin-bottom: 85px" >
         <div class="image" style="margin-bottom: 45px; height: 0px">
           <button
             mat-stroked-button
             type="button"
             (click)="filepicker.click()"
             style="width: 400px; background-color: rgb(144, 144, 144)">
-            Pick video
-          </button>
-          <input type="file" (change)="onCourseChange($event)" #filepicker />
-        </div>
-      </div>
-
-      <div style="margin-bottom: 85px" *ngIf="displayChapter === 'pdf' || displayChapter === 'video'">
-        <div class="image" style="margin-bottom: 45px; height: 0px">
-          <button
-            mat-stroked-button
-            type="button"
-            (click)="filepicker.click()"
-            style="width: 400px; background-color: rgb(144, 144, 144)">
-            Pick TP
+            donner TP
           </button>
           <input type="file" (change)="onTpChange($event)" #filepicker />
         </div>

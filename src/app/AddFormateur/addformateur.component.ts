@@ -48,7 +48,7 @@ export class AddFormateurComponent implements OnInit,OnDestroy {
     if (name_domain !== undefined) {
       const domain = this.getDomain(name_domain); // appelle a la fonction en haut
       // on aura besoin de id pour ...
-      this.course_service.getModule(domain[0].id).subscribe(data=>{
+      this.course_service.getfilieres(domain[0].id).subscribe(data=>{
         this.list_module = data.list_module;
       })
     }

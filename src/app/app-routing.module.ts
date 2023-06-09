@@ -23,7 +23,7 @@ const routes: Routes =[
   {path:'add_course' , component: AddCoursComponent, canActivate : [AuthGuard] },
   {path:'courses_created',component:ListCourseComponent, canActivate : [AuthGuard] },
   {path:'display/:id',component:DisplayCourse, canActivate : [AuthGuard] },
-  {path:'MyCourses',component:MyCoursesComponent, canActivate : [AuthGuard] },
+  {path:'Mylearners',component:MyLearnersComponent, canActivate : [AuthGuard] },
   {path:'add_former',component:AddFormateurComponent, canActivate : [AuthGuard] },
   {path:'get_trainers',component:GetUserComponent, canActivate : [AuthGuard] },
   {path:'get_students',component:MyLearnersComponent, canActivate : [AuthGuard] },

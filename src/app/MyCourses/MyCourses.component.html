@@ -1,5 +1,5 @@
 <Header_Background></Header_Background>
-<div style="width: 100%;position: absolute;top: 10%;"><h1 style="font-size: 50px;font-weight: 800;color: white; font-family: sans-serif; margin: 0 auto;width: 570px;">Mes cours créés</h1></div>
+<div style="width: 100%;position: absolute;top: 10%;"><h1 style="font-size: 50px;font-weight: 800;color: white; font-family: sans-serif; margin: 0 auto;width: 460px;">Mes cours créés</h1></div>
 
 
 <br>
@@ -24,34 +24,38 @@
 
       </mat-form-field>
     </th>
-    <th style="text-align: left;">
-    </th>
     <th></th>
     <th></th>
-
+    <th></th>
     <th><button class="search" (click)="search()"><mat-icon style="margin-top:6px;">search</mat-icon>chercher</button></th>
   </tr>
+
+
   <tr>
     <th colspan="5"><hr></th>
-
   </tr>
+
+
   <tr>
     <th class="title">Nom du cours</th>
-    <th class="title">Domain</th>
+    <th class="title">Domaine</th>
     <th class="title">Filière</th>
     <th></th>
     <th></th>
   </tr>
+
+
   <tr>
     <th colspan="5"><hr></th>
 
   </tr>
 
+            <!-- lignes pour afficher les cours  -->
   <tr *ngFor="let item of liste_course_filter" >
-    <td *ngIf="liste_course_filter.length > 0">{{item?._titleCours}}</td>
-    <td *ngIf="liste_course_filter.length > 0">{{item?._domain}}</td>
-    <td *ngIf="liste_course_filter.length > 0">{{item?._module}}</td>
-    <td *ngIf="liste_course_filter.length > 0">
+    <td >{{item?._titleCours}}</td>
+    <td >{{item?._domain}}</td>
+    <td >{{item?._module}}</td>
+    <td >
       <button class="button_edit"><p style="display: inline-block; margin-right: 8px; color: #42a2e3;" [routerLink]="['/display',item?._id]">afficher </p><img style="width: 16px;" src="../../assets/default-image/detail.jpeg"></button>
     </td>
     <td *ngIf="liste_course_filter.length > 0">
@@ -59,15 +63,22 @@
     </td>
 
   </tr>
+
+
+      <!-- lignes pour afficher un message qu'il n'y a pas de cours  -->
   <tr *ngIf="liste_course_filter.length == 0">
     <td></td>
      <td style=" width: 100%;"><p style="font-size: 20px;color: gray; width: 300px;margin: 0 auto;">Rien n'est encore ajouté</p></td>
   </tr>
 
+
+
   <tr>
     <th colspan="5"><hr></th>
 
   </tr>
+
+
   <tr>
     <th style="line-height: 35px;text-align: left; padding-left: 10px;">Totale</th>
     <th></th>

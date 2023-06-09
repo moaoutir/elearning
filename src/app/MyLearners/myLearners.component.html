@@ -72,7 +72,6 @@
     <td mat-cell *matCellDef="let element">
       <div *ngFor="let item of certificate">
         <p *ngIf="item._learner === element._login && item._nameCourse === element._titleCours">certifié par un score {{item._score}}</p>
-        <p *ngIf="item._learner !== element._login || item._nameCourse !== element._titleCours">non certifié</p>
       </div>
     </td>
 

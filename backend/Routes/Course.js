@@ -68,7 +68,7 @@ router.post('/',ValidateJWB('former'),multer({storage : storage}).fields([{ name
 //apres avoir ajoute l'authentification on doit chercher les id des cours selon instructeur puis chercher
 // dans la table mycourses les id des coures
 router.get('/MyCourses/:user',ValidateJWB("administrator former"),(req,rep,next)=>{
-  if (req.params.user == "null") {
+  if (req.params.user == "null") { // Nous recherchons des cours que nos étudiants ont achetés de la table my courses
     con.query("SELECT _titleCours,_price,_domain,_module,_login FROM my_course INNER JOIN login ON my_course.user = login._login INNER JOIN courses ON courses._id = my_course.id_course WHERE courses._creator = ?",[req.userData.login],(erreur,resultat)=>{
       if (erreur) {
         console.log(erreur);
