@@ -46,6 +46,7 @@ var con = mysql.createConnection({
 
 
 router.post('/',ValidateJWB('former'),multer({storage : storage}).fields([{ name:'course'}, { name:'tp'},{ name:'image'}]),(req,rep,next)=>{
+  console.log("dldlld");
   const url1 = req.protocol + "://" + req.get("host")+"/images/"+ req.files.course[0]?.filename;
   const url2 = req.protocol + "://" + req.get("host")+"/images/"+ req.files.tp[0]?.filename;
   const url3 = req.protocol + "://" + req.get("host")+"/images/"+ req.files.image[0]?.filename;

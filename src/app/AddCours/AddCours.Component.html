@@ -36,11 +36,11 @@
           <button
             mat-stroked-button
             type="button"
-            (click)="filepicker.click()"
+            (click)="filepicker1.click()"
             style="width: 400px; background-color: rgb(144, 144, 144)">
-            donner le cours pdf
+            donner le cours (pdf ou video)
           </button>
-          <input type="file" (change)="onCourseChange($event)" #filepicker />
+          <input type="file" (change)="onCourseChange($event)" #filepicker1 />
         </div>
       </div>
 
@@ -49,23 +49,20 @@
           <button
             mat-stroked-button
             type="button"
-            (click)="filepicker.click()"
+            (click)="filepicker2.click()"
             style="width: 400px; background-color: rgb(144, 144, 144)">
             donner TP
           </button>
-          <input type="file" (change)="onTpChange($event)" #filepicker />
+          <input type="file" (change)="onTpChange($event)" #filepicker2 />
         </div>
       </div>
       <div class="image" style="margin-bottom: 100px;  margin-top: 0px; height: 0px; " >
-        <button mat-stroked-button type="button" (click)="filepicker.click()" style="width: 400px; margin-bottom: 20px; " >Entrez une image</button>
-        <input type="file" (change)="onImageChange($event)" #filepicker>
+        <button mat-stroked-button type="button" (click)="filepicker3.click()" style="width: 400px; margin-bottom: 20px; " >Entrez une image</button>
+        <input type="file" (change)="onImageChange($event)" #filepicker3>
      </div>
 
-
-
-
       <div class="form" >
-        <p class="generatr_quiz">Générer un questionnaire</p>
+        <p class="generatr_quiz">Créer un questionnaire</p>
         <p style="text-align: left; margin-left: 15px; font-size: 18px;height: 25px;">Question: {{cmp + 1}}</p>
         <mat-form-field
           class="example-full-width"
@@ -74,17 +71,50 @@
           <textarea matInput formControlName="question"></textarea>
         </mat-form-field>
         <div formArrayName="reponse"></div>
-        <ul formArrayName="option" style="list-style-type: none;" >
-          <li *ngFor="let item of option.controls; let i = index" >
+        <ul style="list-style-type: none;" >
+          <!--<li *ngFor="let item of option.controls; let i = index" >
             <input type="radio" style="cursor: pointer; margin-right: 10px" name="answer" [value]="i" (change)="onOptionChange($event)"/>
             <mat-form-field
               class="example-full-width" style="width: 400px; text-align: left" >
               <mat-label style="width: 400px" >option {{ i + 1 }}</mat-label>
               <input matInput [formControlName]="i"/>
             </mat-form-field>
+          </li>-->
+          <li>
+            <mat-form-field
+              class="example-full-width" style="width: 400px; text-align: left" >
+              <mat-label style="width: 400px" >option 1</mat-label>
+              <input matInput formControlName="option1"/>
+            </mat-form-field>
+          </li>
+          <li>
+            <mat-form-field
+              class="example-full-width" style="width: 400px; text-align: left" >
+              <mat-label style="width: 400px" >option 2</mat-label>
+              <input matInput formControlName="option2"/>
+            </mat-form-field>
+          </li>
+          <li>
+            <mat-form-field
+              class="example-full-width" style="width: 400px; text-align: left" >
+              <mat-label style="width: 400px" >option 3</mat-label>
+              <input matInput formControlName="option3"/>
+            </mat-form-field>
+          </li>
+          <li>
+            <mat-form-field
+              class="example-full-width" style="width: 400px; text-align: left" >
+              <mat-label style="width: 400px" >option 4</mat-label>
+              <input matInput formControlName="option4"/>
+            </mat-form-field>
           </li>
         </ul>
-
+        <mat-form-field
+          class="example-full-width"
+          style="width: 530px; margin-left: 10px">
+          <mat-label>Reponse {{cmp + 1}}</mat-label>
+          <input matInput formControlName="reponse">
+        </mat-form-field>
         <br />
         <div class="button">
           <button mat-raised-button color="primary" type="submit" style="width: 100px">

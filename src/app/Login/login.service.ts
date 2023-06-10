@@ -33,7 +33,9 @@ export class loginService{
     this.http.get<{users: Login[]}>("http://localhost:3000/login/listes_formateurs").subscribe(data=>{
       this.list_user = data.users;
       this.UserUpdate.next([...this.list_user]);
-    });
+    },error =>{
+      console.log(error);
+      this.route.navigate(['/'])});
   }
   getEmailOfuser(user:string){
     return this.http.get<{email: string}>("http://localhost:3000/login/get_email/"+user);

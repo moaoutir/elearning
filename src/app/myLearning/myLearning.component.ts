@@ -33,7 +33,9 @@ export class MyLearningComponent implements OnInit {
   ngOnInit() {
   this.course_service.getFromMyCoursesByLearner().subscribe(data =>{
     this.myCourses = data.my_learning;
-  })
+  },error =>{
+    console.log(error);
+    this.route.navigate(['/'])})
   this.course_service.getCertificates().subscribe(data=>{
     this.my_certificate  = data.certificates;
     console.log(this.my_certificate );

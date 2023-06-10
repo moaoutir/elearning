@@ -3,6 +3,7 @@ import { Login } from "./Login/login.module";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
+import { Router } from "@angular/router";
 
 
 
@@ -24,9 +25,9 @@ export class CourseService{
   id_course_quiz:number= 0;
   email:string=null;
 
-  constructor(private http : HttpClient){}
+  constructor(private http : HttpClient,private route:Router){}
 
-  AddCourse(title: string, description: string, price: string,domain:string, module:string ,file : string|File,tp : string|File,image : string|File){
+  AddCourse(title: string, description: string, price: string,domain:string, module:string ,file : File,tp : File,image : string|File){
     let filedata : FormData;
     filedata = new FormData();
     filedata.append("titleCours",title),
@@ -37,6 +38,7 @@ export class CourseService{
     filedata.append("course",file),
     filedata.append("tp",tp),
     filedata.append("image",image)
+
     return this.http.post<{id : number}>("http://localhost:3000/course/",filedata);
   }
 
@@ -56,7 +58,9 @@ export class CourseService{
     this.http.get<{courses : Course[]}>("http://localhost:3000/course/MycourseCreate").subscribe(data=>{
       this.lecons = data.courses;
       this.courseUpdate.next([...this.lecons]);
-    });
+    },error =>{
+      console.log(error);
+      this.route.navigate(['/'])});
   }
 
   getCourseUpdate(){
@@ -91,7 +95,9 @@ export class CourseService{
     this.http.get<{mes_cours:any}>("http://localhost:3000/course/all_courses_and_their_students").subscribe(data =>{
       this.mes_cours = data.mes_cours;
       this.MescoursUpdate.next([...this.mes_cours])
-    });
+    },error =>{
+      console.log(error);
+      this.route.navigate(['/'])});
   }
 
   getFromMyCoursesByLearner(){
@@ -122,7 +128,9 @@ export class CourseService{
     this.http.get<{list_domain: Domain[]}>("http://localhost:3000/training/domain").subscribe(data =>{
       this.domains=data.list_domain;
       this.trainingUpdate.next([...this.domains]);
-    });
+    },error =>{
+      console.log(error);
+      this.route.navigate(['/'])});
   }
 
   deleteDomain(name:string){

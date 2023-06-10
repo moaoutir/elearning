@@ -50,10 +50,10 @@ export class MyLearnersComponent implements OnInit,OnDestroy {
         this.list_modules = data.my_modules;
         this.domain_selected = data.my_domain.name_domain; // ici on affecte au domain_selected le domain qui a ete affecte au formateur
         // car on aura besoin dans la fonction search
-      })
-
-      this.text_header = "Mes apprenants et leurs cours";
-
+      },error =>{
+        console.log(error);
+        this.route.navigate(['/'])})
+        this.text_header = "Mes apprenants et leurs cours";
     }else if (this.route.url === "/get_students") {
       this.type_of_user="administrator";
       this.course_service.getFromMyCoursesByAdmin(); // Nous recherchons des cours que nos étudiants ont achetés et qui sont cree par tous nos formateur de la table my courses
