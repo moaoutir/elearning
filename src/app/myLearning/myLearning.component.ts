@@ -31,23 +31,23 @@ export class MyLearningComponent implements OnInit {
     private login_service: loginService) {}
 
   ngOnInit() {
-  this.course_service.getFromMyCoursesByLearner().subscribe(data =>{
+  this.course_service.get_mon_apprentissage().subscribe(data =>{
     this.myCourses = data.my_learning;
   },error =>{
-    console.log(error);
-    this.route.navigate(['/'])})
+    this.route.navigate(['/'])
+  })
+
   this.course_service.getCertificates().subscribe(data=>{
     this.my_certificate  = data.certificates;
-    console.log(this.my_certificate );
 
     for (let i = 0; i < this.my_certificate.length; i++) {
       this.tab_id_course[i] = this.my_certificate[i].id_course;
-      console.log(this.tab_id_course.includes(5));
-
     }
+
   })
   }
-  display_course(event: any){
+
+  afficher_cours(event: any){
     this.route.navigate(['/display',event._id]);
     }
 

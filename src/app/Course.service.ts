@@ -1,40 +1,38 @@
-import { Course,MyCourses,Question,Domain,Module,Certificate,MyModule,Email } from "./Course.module";
+import { Course,MyCourses,Question,Domain,filiere,Certificate,My_filiere,Email } from "./Course.module";
 import { Login } from "./Login/login.module";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 import { Router } from "@angular/router";
 
-
+//Les observables permettent de gérer les flux de données en temps réel
 
 @Injectable({providedIn: "root"})
 export class CourseService{
-  private lecon :Course;
   private lecons: Course[]=[];
   private question: Question;
   private mon_cours: MyCourses;
   private mes_cours: any[]=[];
   private domain : Domain;
   private domains: Domain[]=[];
-  private module: Module;
-  private courseUpdate = new Subject<Course[]>();
-  private MescoursUpdate = new Subject<MyCourses[]>();
+  private courseUpdate = new Subject<Course[]>(); // pour gerer les cours
+  private MescoursUpdate = new Subject<MyCourses[]>();//
   private trainingUpdate = new Subject<Domain[]>();
-  my_module:MyModule;
+  mes_filieres:My_filiere;
   id_course_to_buy: number=0;
   id_course_quiz:number= 0;
   email:string=null;
 
   constructor(private http : HttpClient,private route:Router){}
 
-  AddCourse(title: string, description: string, price: string,domain:string, module:string ,file : File,tp : File,image : string|File){
-    let filedata : FormData;
+  AddCourse(title: string, description: string, price: string,domain:string, filiere:string ,file : File,tp : File,image : string|File){
+    let filedata : FormData;//est une interface JavaScript permet d'envoyer des donnes de formulaire y compris les fichiers via des requetes HTTP
     filedata = new FormData();
     filedata.append("titleCours",title),
     filedata.append("description",description),
     filedata.append("price",price),
     filedata.append("domain",domain),
-    filedata.append("module",module),
+    filedata.append("filiere",filiere),
     filedata.append("course",file),
     filedata.append("tp",tp),
     filedata.append("image",image)
@@ -47,12 +45,16 @@ export class CourseService{
   }
 
   getCourse(id : number){
-
     return this.http.get<{course : Course,instructor:Login}>("http://localhost:3000/course/"+id);
   }
   search_courses_by_name(name: string){
     return this.http.get<{liste_cours:Course[]}>("http://localhost:3000/course/search/"+name)
   }
+  get_mon_apprentissage(){
+    return this.http.get<{my_learning:any}>("http://localhost:3000/course/Mylearning");
+  }
+
+  // observables courseUpdate pour gerer les cours
 
   getMyCourseCreate(){
     this.http.get<{courses : Course[]}>("http://localhost:3000/course/MycourseCreate").subscribe(data=>{
@@ -76,6 +78,24 @@ export class CourseService{
       this.courseUpdate.next([...this.lecons]);
     });
   }
+  // fin observables courseUpdate
+
+  // observables MescoursUpdate pour gerer la table my_courses
+
+  getFromMyCoursesByFormer(){ // on retourne les apprenants avec leur cours qui sont cree par ce formateur
+    this.http.get<{mes_cours:any}>("http://localhost:3000/course/My_students_and_their_courses").subscribe(data=>{
+      this.mes_cours = data.mes_cours;
+      this.MescoursUpdate.next([...this.mes_cours]);
+    });
+  }
+
+  getFromMyCoursesByAdmin(){ // on retourne tous les etudiants avec leur cours
+    this.http.get<{mes_cours:any}>("http://localhost:3000/course/all_courses_and_their_students").subscribe(data =>{
+      this.mes_cours = data.mes_cours;
+      this.MescoursUpdate.next([...this.mes_cours])
+    },error =>{
+      this.route.navigate(['/'])});
+  }
 
   addToMyCourses(id_course:number){
     this.mon_cours = {id:null,id_courses:id_course,user:null};
@@ -84,41 +104,23 @@ export class CourseService{
     this.http.post("http://localhost:3000/course/MyCourses",this.mon_cours).subscribe();
   }
 
-  getFromMyCoursesByFormer(user: string){
-    this.http.get<{mes_cours:any}>("http://localhost:3000/course/MyCourses/"+user).subscribe(data=>{
-      this.mes_cours = data.mes_cours;
-      this.MescoursUpdate.next([...this.mes_cours]);
-    });
-  }
-
-  getFromMyCoursesByAdmin(){
-    this.http.get<{mes_cours:any}>("http://localhost:3000/course/all_courses_and_their_students").subscribe(data =>{
-      this.mes_cours = data.mes_cours;
-      this.MescoursUpdate.next([...this.mes_cours])
-    },error =>{
-      console.log(error);
-      this.route.navigate(['/'])});
-  }
-
-  getFromMyCoursesByLearner(){
-    return this.http.get<{my_learning:any}>("http://localhost:3000/course/Mylearning");
-  }
-
   getMesCoursUpdate(){
     return this.MescoursUpdate.asObservable();
   }
 
-  SupprimerDeMesCours(login:string){ // on doit faire un update de MesCours quand on supprime un utilisateur
+  SupprimerDeMonApprentissage(login:string){ // on doit faire un update de MesCours quand on supprime un utilisateur
     const UpdateMesCours = this.mes_cours.filter (elm => elm._login !== login);
     this.mes_cours = UpdateMesCours;
     this.MescoursUpdate.next([...this.mes_cours]);
   }
 
-  // on gere les domaines
+  // fin de l'observables MescoursUpdate
+
+  // observables trainingUpdate pour gerer les domaines
+
   addDomain(name_domain: string){
     this.domain = {id:null,name_domain:name_domain}
     this.domains.push(this.domain);
-    console.log(this.domains);
 
     this.trainingUpdate.next([...this.domains]);
     this.http.post("http://localhost:3000/training/domain",this.domain).subscribe();
@@ -134,7 +136,7 @@ export class CourseService{
   }
 
   deleteDomain(name:string){
-    this.http.delete<{list_domain: Domain[],list_module:Module[]}>("http://localhost:3000/training/domain/"+name).subscribe(()=>{
+    this.http.delete<{list_domain: Domain[],list_module:filiere[]}>("http://localhost:3000/training/domain/"+name).subscribe(()=>{
       const updateTraining = this.domains.filter(elm => elm.name_domain !== name);
       console.log(updateTraining);
       this.domains = updateTraining;
@@ -146,28 +148,32 @@ export class CourseService{
     return this.trainingUpdate.asObservable();
   }
 
-  setModuleToFormer(user:string,id_domain:number,list_id_module:number[]){
-    this.my_module = {id:null,user:user,id_domain:id_domain,list_id_module}
-    this.http.post("http://localhost:3000/training/my_module",this.my_module).subscribe();
+    // fin de l'observables trainingUpdate
+
+
+  set_Filiere_Au_Formateur(user:string,id_domain:number,list_id_module:number[]){
+    this.mes_filieres = {id:null,user:user,id_domain:id_domain,list_id_module}
+    this.http.post("http://localhost:3000/training/mes_filieres",this.mes_filieres).subscribe();
    }
 
-  getModuleAssignToFormer(){
-    return this.http.get<{my_domain:Domain,my_modules:Module[]}>("http://localhost:3000/training/my_module");
+  get_filieres_attribue_au_formateur(){
+    return this.http.get<{my_domain:Domain,my_modules:filiere[]}>("http://localhost:3000/training/mes_filieres");
   }
 
   getModuleAssignToAllFormer(){
-    return this.http.get<{list_my_domain:Domain[],list_my_modules:Module[]}>("http://localhost:3000/training/listMy_module");
+    return this.http.get<{list_my_domain:Domain[],list_my_modules:filiere[]}>("http://localhost:3000/training/listMes_filieres");
   }
 
-  addModule(list_module:Module[]){
-    //this.module = {id:null,name_module:name_module,id_domain:id_domain};
-    //console.log(this.module);
-    //this.http.delete("http://localhost:3000/training/module/"+id_domain).subscribe();
-    this.http.post("http://localhost:3000/training/module",list_module).subscribe();
+  delete_all_filieres(id_domaine:number){ // on supprime tous les fiieres qui sont on relation avec ce id de domaine
+    this.http.delete("http://localhost:3000/training/filiere/"+id_domaine).subscribe();
   }
 
-  getfilieres(id_module: number){
-    return this.http.get<{list_module: Module[]}>("http://localhost:3000/training/module/"+id_module);
+  add_filieres(list_module:filiere[]){
+    this.http.post("http://localhost:3000/training/filiere",list_module).subscribe();
+  }
+
+  getfilieres(id_domaine: number){
+    return this.http.get<{list_module: filiere[]}>("http://localhost:3000/training/filiere/"+id_domaine);
   }
 
   getQuiz(id: string){
@@ -223,8 +229,6 @@ export class CourseService{
 
 
    getCount(){
-    console.log("kjj");
-
     return this.http.get<{cours:number,formers:number,students:number}>("http://localhost:3000/course/count");
    }
 }

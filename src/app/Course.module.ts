@@ -24,10 +24,7 @@ export interface Options{
   id_question: string | null;
   _options: string[];
 }
-export interface QCM{
-  id: string | null;
-  Totalescore: number;
-}
+
 export interface MyCourses{
   id: string | null;
   id_courses: number;
@@ -38,7 +35,7 @@ export interface Domain{
   name_domain: string;
 }
 
-export interface Module{
+export interface filiere{
   _id: number|null;
   id_domain:string|null;
   name_module: string;
@@ -53,7 +50,7 @@ export interface Certificate{
   _score:number;
 }
 
-export interface MyModule{
+export interface My_filiere{
   id:number;
   user:string;
   id_domain:number;

@@ -22,7 +22,7 @@ export class PayControlComponent implements OnInit{
       this.url="quiz";
     }
   }
-  functionTOApply(){
+  Acheter(){
     if (this.url ==="courses") {
       const id_course = this.course_service.getIdCourse();
       this.course_service.addToMyCourses(id_course);
@@ -30,7 +30,6 @@ export class PayControlComponent implements OnInit{
       const id_course_quiz = this.course_service.getIdCourse_quiz();
       this.router.navigate(['/quiz',id_course_quiz]);
     }
-
   }
 
 }

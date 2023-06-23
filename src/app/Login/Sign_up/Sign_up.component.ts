@@ -21,10 +21,9 @@ export class SignUpComponent {
 
   clickbutton(){
     if (this.form.invalid) {
-      alert("invalid");
+      alert("remplissez tous les champs");
       return;
     }
     this.login_service.addNewLogin(this.form.value.login,this.form.value.email,this.form.value.password,this.form.value.Firstname,this.form.value.Lastname,this.type_login)
-    //console.log(this.form.value.Lastname,this.form.value.Firstname,this.form.value.login,this.form.value.email,this.form.value.password);
   }
 }

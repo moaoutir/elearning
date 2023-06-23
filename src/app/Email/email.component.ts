@@ -1,8 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import { loginService } from "../Login/login.service";
 import { CourseService } from "../Course.service";
-import { GetUserComponent } from "../Trainers/trainers.component";
-import { MyLearnersComponent } from "../MyLearners/myLearners.component";
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 

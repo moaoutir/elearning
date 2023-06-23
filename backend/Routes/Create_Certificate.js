@@ -10,10 +10,13 @@ function jumpLine(doc, lines) {
 }
 
 function createCertificate(firstName_student,lastName_student,firstName_former,lastName_former,name_course){
-  const nameCertificate = "certificate_"+name_course+"_for_"+firstName_student+"_from"+firstName_former+".pdf"
+  const nameCertificate = "certificate_"+name_course+"_for_"+firstName_student+"_from"+firstName_former+Date.now()+".pdf"
   const filePath = './backend/images/'+nameCertificate;
-  //const filePath = './backend/images/output.pdf';
+  // on cree un neauveau document
   const doc = new PDFDocument({size: [800,520],margins : {top: 1,bottom:1,left: 1,right: 1}});
+  //cette ligne de code crée un flux d'écriture vers un fichier spécifié par filePath en utilisant le module fs,
+  // puis connecte le flux de document (doc) au flux d'écriture à l'aide de pipe.
+  // Cela permet d'écrire le contenu du document dans le fichier spécifié.
   doc.pipe(fs.createWriteStream(filePath));
    // on cree le border radius avec une couleur bleu
    const distanceMargin = 18;
@@ -169,7 +172,7 @@ doc.page.width / 2 - maxWidthQr / 2,
       }
     );
    doc.end();
-   //doc.pipe(rep)
+
    return nameCertificate;
 }
 module.exports ={createCertificate};

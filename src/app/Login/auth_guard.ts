@@ -13,7 +13,11 @@ export class AuthGuard implements CanActivate {
       return true;
     } else {
       this.router.navigate(['/Sign_in']);
-      //return false;
     }
   }
 }
+
+
+
+//La classe AuthGuard en Angular est utilisée pour protéger les routes de votre application en appliquant des règles d'authentification et d'autorisation.
+//Elle permet de contrôler l'accès à certaines parties de votre application en fonction des permissions de l'utilisateur connecté

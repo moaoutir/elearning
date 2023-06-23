@@ -6,7 +6,7 @@ import {MatTableDataSource,MatTable } from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { ActivatedRoute,Router  } from "@angular/router";
 import { CourseService } from "../Course.service";
-import { Domain,Module } from "../Course.module";
+import { Domain,filiere } from "../Course.module";
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,14 +18,13 @@ export class ManageTrainerComponent implements OnInit,OnDestroy{
   isDisabled = true;
   TotalDomain: number;
   form: FormGroup;
-  id_module=null;
-  name_module="Sélectionnez un domaine"
+  id_domaine=null;
+  nom_domaine="Sélectionnez un domaine"
   displayedColumns: string[] = ['edit','name_domain'];
   dataSource : MatTableDataSource<any>;
   selection = new SelectionModel(true, []);
   list_domain:Domain[];
-  list_module:Module[]=[];
-  list_module_null:Module[]=[];
+  lists_filieres:filiere[]=[];
   list_domain_sub:Subscription = new Subscription();
   selectable = true;
   removable = true;
@@ -43,6 +42,7 @@ export class ManageTrainerComponent implements OnInit,OnDestroy{
   }
 
   ngOnInit(): void {
+    // on recupere tous les domaines
     this.course_service.getDomains();
     this.list_domain_sub = this.course_service.getUpdateDomain().subscribe((data: Domain[]) =>{
       this.list_domain = data;
@@ -55,8 +55,8 @@ export class ManageTrainerComponent implements OnInit,OnDestroy{
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-    if ((value ).trim()||'') {
-      this.list_module.push({_id:null,id_domain:this.id_module,name_module: value.trim()});
+    if ((value ).trim()) {
+      this.lists_filieres.push({_id:null,id_domain:this.id_domaine,name_module: value.trim()});
     }
     // Reset the input value
     if (input) {
@@ -64,56 +64,49 @@ export class ManageTrainerComponent implements OnInit,OnDestroy{
     }
   }
 
-  remove(module: Module): void {
-    const index = this.list_module.indexOf(module);
-    if (index >= 0) {
-      this.list_module.splice(index, 1);
-    }
+  remove(module: filiere): void {
+    const index = this.lists_filieres.indexOf(module);
+
+    this.lists_filieres.splice(index, 1);
   }
 
-  get_domain_id(name_module : string): string{
-    let id;
-    for (let i = 0; i < this.list_domain.length; i++) {
-      if (this.list_domain[i].name_domain===name_module)
-        id= this.list_domain[i].id;
-    }
-    return id;
+
+  // retourne id de domaine a partir d'un nom du filiere
+  get_domaine_id(nom_domaine : string): number{
+    const domaine = this.list_domain.filter(elm => elm.name_domain === nom_domaine);
+    return domaine[0].id;
   }
 
-  DisplayModule(event: any){
+  afficher_les_filieres(event: any){
     this.isDisabled = false;
-    const module = event.name_domain;
-    this.name_module = event.name_domain
-    this.id_module = this.get_domain_id(module);
-    this.course_service.getfilieres(this.id_module).subscribe(data=>{
-      this.list_module=data.list_module;
+    this.nom_domaine = event.name_domain;
+    this.id_domaine = this.get_domaine_id(this.nom_domaine); // on selectionne id pour recupere les filieres selon l'id de domaine
+    this.course_service.getfilieres(this.id_domaine).subscribe(data=>{
+      this.lists_filieres=data.list_module;
     })
   }
 
   DeleteDomain(event: any){
-    console.log(event.name_domain);
-
-    const module = event.name_domain;
-    const id = this.get_domain_id(module);
-    this.course_service.deleteDomain(event.name_domain);
-    this.list_module = [];
-    this.name_module="Select a domain";
+    const domaine = event.name_domain;
+    this.course_service.deleteDomain(domaine);
+    this.lists_filieres = []; // pour vider le input ( la place pour ajouter un filiere )
+    this.nom_domaine="Sélectionnez un domaine";
     this.isDisabled = true;
     }
 
-  saveModule(){
-    if (this.list_module.length == 0) {
-      this.list_module_null.push({_id:null, id_domain:this.id_module, name_module:null})
-      this.course_service.addModule(this.list_module_null);
-      this.list_module_null=[];
-    }else if(this.list_module[0].id_domain !== null){
-      this.course_service.addModule(this.list_module);
+    
+    Sauvegarder(){
+    if (this.lists_filieres.length == 0) {
+      this.course_service.delete_all_filieres(this.id_domaine);
+    }else if(this.lists_filieres[0].id_domain !== null){
+      this.course_service.delete_all_filieres(this.id_domaine);
+      this.course_service.add_filieres(this.lists_filieres);
     }
   }
 
   add_new_domain(){
     if (this.form.invalid) {
-      alert("invalid");
+      alert("ajoutez un domaine");
       return;
     }
     this.course_service.addDomain(this.form.value.domain);

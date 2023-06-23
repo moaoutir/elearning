@@ -3,7 +3,7 @@
   <div [class.div_1]="header" >
     <div [class.div1]="!header" >
       <div id="Search"  class="search_css">
-        <mat-icon class="icon_close" (click)="functionClick2()" >close</mat-icon>
+        <mat-icon class="icon_close" (click)="fermer_barre_recherche()" >close</mat-icon>
         <div style="margin: 0 auto; display: flex;">
         <form [formGroup]="form" style=" overflow: hidden;  width: 700px; margin-top: 12px;">
 
@@ -18,7 +18,7 @@
 
     <div  class="div2 div7">
          <a routerLink="/courses" style="cursor: pointer;">Cours</a>
-        <a  (click)="functionClick()" style="cursor: pointer;">Rechercher</a>
+        <a  (click)="ouvrir_barre_recherche()" style="cursor: pointer;">Rechercher</a>
         <a [matMenuTriggerFor]="Login" style="cursor: pointer;" >Compte</a>
         <mat-menu class="menu_login" #Login="matMenu" yPosition="below">
           <button *ngIf="!status"  mat-menu-item routerLink="/Sign_in">

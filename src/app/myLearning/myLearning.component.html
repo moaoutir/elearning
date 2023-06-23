@@ -11,7 +11,7 @@
     <td mat-cell *matCellDef="let row">
       <button  mat-button color="primary" (click)="openBottomSheet(row)"><mat-icon style="transform: scale(1); margin-right: 5px;">email</mat-icon>envoyer un email</button>
       <button *ngIf="!tab_id_course.includes(row.id_course)" mat-button color="accent" (click)="openDialog(row)"><mat-icon>quiz</mat-icon> payer et passer le QUIZ</button>
-      <button mat-button color="primary" (click)="display_course(row)"><mat-icon>description</mat-icon> afficher le cours</button>
+      <button mat-button color="primary" (click)="afficher_cours(row)"><mat-icon>description</mat-icon> afficher le cours</button>
     </td>
   </ng-container>
 

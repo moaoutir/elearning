@@ -21,53 +21,54 @@ export class QuizComponent implements OnInit,OnDestroy{
   list_options: string[]= [];
   score: number = 0;
   number_questions = 5;
-  tab_number = [];
+  tab_nombre_aleatoire = [];
   existNumber:boolean = false;
   cmp:number;
   intervalId: number | undefined;
   duration: number = 10 ; // Durée en secondes
   timer:number = this.duration;
   id_course: number;
+
   constructor(private route: ActivatedRoute,private course_service:CourseService,private router: Router){}
+
   form: FormGroup = new FormGroup({
     title: new FormControl(null, {
       validators: [Validators.required, Validators.maxLength(30)]})
     })
 
-  random(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-
-  getRandomNumbers(): number[] {
-    const numbers: number[] = [];
-    while (numbers.length < 5) {
-      const randomNumber = this.random(0,9)
-      if (!numbers.includes(randomNumber)) {
-        numbers.push(randomNumber);
-      }
-    }
-    return numbers;
-  }
-
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const myParam = params.get('id');
       this.course_service.getQuiz(myParam).subscribe(data=>{
-        this.tab_number = this.getRandomNumbers();
-        console.log(this.tab_number.length);
-        for (let i = 0; i < this.tab_number.length; i++) {
-          this.list_questions.push(data.list_question[this.tab_number[i]]);
+
+        this.tab_nombre_aleatoire = this.getRandomNumbers();
+
+        for (let i = 0; i < this.tab_nombre_aleatoire.length; i++) {
+          this.list_questions.push(data.list_question[this.tab_nombre_aleatoire[i]]);
         }
         this.list_options=data.list_options;
-        this.question = this.list_questions[0]; // on choisie une seule question
-        this.cmp = this.list_questions.length;
+
+        this.cmp = this.tab_nombre_aleatoire.length;
+
         this.nextQuestion();
       });
-      this.id_course = parseInt(myParam);
+      this.id_course = parseInt(myParam); // pour la creation d'un certificat
     });
 }
 
-private start() {
+getRandomNumbers(): number[] {
+  const tab_nombre: number[] = [];
+  while (tab_nombre.length < 5) {
+    // Math.random() => [0,1[ , Math.floor arrondit un nombre à l'entier inférieur le plus proche ex 4.8 => 4
+    const randomNumber = Math.floor(Math.random() * 10);
+    if (!tab_nombre.includes(randomNumber)) {
+      tab_nombre.push(randomNumber);
+    }
+  }
+  return tab_nombre;
+}
+
+private start() { // timer est initialise timer = duration ==> duration == 10
   this.intervalId = window.setInterval(() => {
     if (this.timer == 0) {
       this.update_Time_and_Question()
@@ -79,19 +80,27 @@ private start() {
 
  private update_Time_and_Question() {
   this.timer = this.duration;
-  clearInterval(this.intervalId);
+  clearInterval(this.intervalId); // arreter l'execution de l'intervalle 
+  this.form.reset(); // pour enlever la valeur selectionne
   this.nextQuestion();
-  this.form.reset();
  }
 
   private nextQuestion(){
     if (this.cmp > 0) {
-      this.start();
       this.question = this.list_questions[this.cmp-1];
+      this.cmp--;
+      this.start();
     }else{
-      this.functionStatus();
+      this.calculer_note_generale();
     }
-    this.cmp--;
+  }
+  // on ajoute cette fonction dans le cas si on clique sur suivant avant que les 10s passent
+  functionStatus () {
+    if (this.cmp == 0) {
+      this.calculer_note_generale();
+    }else {
+      this.update_Time_and_Question();
+    }
   }
 
   onChangeOption(response: string,event){
@@ -102,15 +111,7 @@ private start() {
     }
   }
 
-  functionStatus () {
-    if (this.cmp <= 0) {
-      this.correct_the_answers();
-    }else {
-      this.update_Time_and_Question();
-    }
-  }
-
-  correct_the_answers(){
+  calculer_note_generale(){
     if (this.score>=15) {
       alert("Félicitations! vous avez reussi votre score est: "+this.score)
       const score = this.score;
@@ -126,6 +127,8 @@ private start() {
     }
     //this.score = 0;
   }
+
+
   ngOnDestroy(): void {
     clearInterval(this.intervalId);
   }

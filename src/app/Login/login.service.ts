@@ -16,7 +16,6 @@ export class loginService{
   private role: string;
   private status = new Subject<boolean>();
   private UserUpdate = new Subject<Login[]>();
-  private Mes_cours_Update = new Subject<MyCourses[]>();
   constructor(private http:HttpClient,private route: Router){}
 
   addNewLogin(login :string,email:string, password:string, firstName:string, lastName:string, type:string){
@@ -37,9 +36,6 @@ export class loginService{
       console.log(error);
       this.route.navigate(['/'])});
   }
-  getEmailOfuser(user:string){
-    return this.http.get<{email: string}>("http://localhost:3000/login/get_email/"+user);
-  }
 
   getUpdateFormer(){
     return this.UserUpdate.asObservable();
@@ -55,15 +51,15 @@ export class loginService{
 
   LOGIN(_login: string,password: string){
     this.login={id:null,_firstName:null,_lastName:null,_login:_login,_email:null,_password:password,_type:null}
-    this.http.post<{token: string,ExpiresIn: number,role:string}>("http://localhost:3000/login/sign_in",this.login).subscribe(data=>{
+    this.http.post<{token: string,role:string}>("http://localhost:3000/login/sign_in",this.login).subscribe(data=>{
       this.statusService = true;
       this.token = data.token;
       this.role = data.role;
       this.status.next(true);
-      this.SaveAuthData(this.token,this.role);
+      this.sauvegarder_AuthData(this.token,this.role);
       this.route.navigate(['/']);
-    },error=>{ console.log(error);
-    ;alert(error.statusText);
+    },error=>{
+      alert(error.statusText);
     });
   }
 
@@ -72,32 +68,35 @@ export class loginService{
     this.token=null;
     this.statusService=false;
     this.status.next(false);
-    this.ClearAuthData();
+    this.effacer_AuthData();
     this.route.navigate(['/']);
   }
+
   AuthService(){
     return this.statusService;
   }
+
   getToken(){
     return this.token;
   }
+
   // on retourne le status de l'authentification s'il est connecte ou non. cette tache nécessité un observable
   // qui reste a l'ecoute a chaque fois quand change le status
   getAuthStatusListner(){
     return this.status.asObservable();
   }
 
-  private SaveAuthData(token: string,role: string){
+  private sauvegarder_AuthData(token: string,role: string){
     localStorage.setItem("token",token);
     localStorage.setItem("role",role);
   }
 
-  private ClearAuthData(){
+  private effacer_AuthData(){
     localStorage.removeItem("token");
     localStorage.removeItem("role");
   }
 
-  private getauthData(){
+  private get_authData(){
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
     if (!token) {
@@ -109,12 +108,13 @@ export class loginService{
     }
   }
 
+  // cette fonction va etre applle dans le app.component.ts, achaque fois qu'ont actualise la page
   AutoAuthUser(){
-    const AuthInformation = this.getauthData();
+    const AuthInformation = this.get_authData();
     if (!AuthInformation) {
-      return;
+      this.status.next(false);
+      this.statusService = false;
     }
-    const now = new Date();
     if (AuthInformation) {
       this.token = AuthInformation.token;
       this.role = AuthInformation.role;
@@ -127,5 +127,8 @@ export class loginService{
     return this.role;
   }
 
+  getEmailOfuser(user:string){
+    return this.http.get<{email: string}>("http://localhost:3000/login/get_email/"+user);
+  }
 
 }

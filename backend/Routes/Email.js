@@ -14,10 +14,8 @@ var con = mysql.createConnection({
 });
 
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com', // e.g., 'smtp.gmail.com'
-  port: 587 , // e.g., 587
-  secure: false, // true for 465, false for other ports
+const transporter = nodemailer.createTransport({ // on Configure un transporteur que nodemailer utilisera pour envoyer les e-mails
+  service: 'gmail',
   auth: {
     user: 'education.center.eu@gmail.com' ,
     pass: 'sbocyfyywuhzbngp',
@@ -25,34 +23,24 @@ const transporter = nodemailer.createTransport({
 });
 
 
-async function sendEmail(email_expéditeur,email_destinataire,text,sujet) {
-
-// Create a transporter using SMTP
-
-  try {
-    // Send mail with defined transport object
-    const info = await transporter.sendMail({
-      //from: email_expéditeur +"<youssef.aoutir2004@gmail.com>",
-      from: email_expéditeur+" (Education Center) <no-reply.education-center@gmail.com>",
-      // from:{
-      // name: email_expéditeur,
-      // address: email_expéditeur
-      // },
-      to: email_destinataire,
-      subject: sujet,
-      text: text,
-      html: text +'<br><br><br>Education Center',
-    });
-    const val = "../../src/assets/default-image/logo1.png"
-    console.log('Message sent:', info.messageId);
-  } catch (error) {
-    console.error('Error occurred:', error.message);
-  }
-}
-
 router.post('/',ValidateJWB('administrator former student'),(req,rep,next)=>{
  console.log(req.userData.email," ",req.body.email_destinataire);
- sendEmail(req.userData.email,req.body.email_destinataire,req.body.text,req.body.sujet);
+
+  const Options_email = { // on cree un objet d'email : ici on Définit les détails de l'e-mail
+    from: req.userData.email+" <no-reply.education-center@gmail.com>",
+    to: req.body.email_destinataire,
+    subject: req.body.sujet,
+    html: req.body.text + '<br><br><br>Education Center'
+  };
+
+  transporter.sendMail(Options_email, function(erreur, resultat){
+    if (erreur) {
+      console.log(erreur);
+    } else {
+      console.log('Email sent: ' + resultat.response);
+    }
+  });
+
 
  })
 

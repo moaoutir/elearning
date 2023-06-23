@@ -26,7 +26,7 @@
         style="width: 400px; margin-bottom: 10px">
         <mat-label>Choisissez une formation</mat-label>
         <mat-select formControlName="filiere">
-          <mat-option *ngFor="let item of list_modules" [value]="item?.name_module">
+          <mat-option *ngFor="let item of list_filieres" [value]="item?.name_module">
             {{ item?.name_module }}
           </mat-option>
         </mat-select>
@@ -57,7 +57,7 @@
         </div>
       </div>
       <div class="image" style="margin-bottom: 100px;  margin-top: 0px; height: 0px; " >
-        <button mat-stroked-button type="button" (click)="filepicker3.click()" style="width: 400px; margin-bottom: 20px; " >Entrez une image</button>
+        <button mat-stroked-button type="button" (click)="filepicker3.click()" style="width: 400px; margin-bottom: 20px; background-color: rgb(144, 144, 144)" >Entrez une image</button>
         <input type="file" (change)="onImageChange($event)" #filepicker3>
      </div>
 
@@ -72,14 +72,6 @@
         </mat-form-field>
         <div formArrayName="reponse"></div>
         <ul style="list-style-type: none;" >
-          <!--<li *ngFor="let item of option.controls; let i = index" >
-            <input type="radio" style="cursor: pointer; margin-right: 10px" name="answer" [value]="i" (change)="onOptionChange($event)"/>
-            <mat-form-field
-              class="example-full-width" style="width: 400px; text-align: left" >
-              <mat-label style="width: 400px" >option {{ i + 1 }}</mat-label>
-              <input matInput [formControlName]="i"/>
-            </mat-form-field>
-          </li>-->
           <li>
             <mat-form-field
               class="example-full-width" style="width: 400px; text-align: left" >
@@ -118,7 +110,7 @@
         <br />
         <div class="button">
           <button mat-raised-button color="primary" type="submit" style="width: 100px">
-            {{ button }}
+            suivant
           </button>
         </div>
       </div>

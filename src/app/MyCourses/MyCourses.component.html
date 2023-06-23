@@ -15,9 +15,9 @@
       <mat-form-field class="formField">
         <mat-label>Sélectionnez un filière</mat-label>
 
-        <mat-select (selectionChange)="getModuleSelected($event)">
+        <mat-select (selectionChange)="get_filiere_Selected($event)">
 
-          <mat-option *ngFor="let item of list_modules" [value]="item.name_module">
+          <mat-option *ngFor="let item of lists_filieres" [value]="item.name_module">
             {{item.name_module}}</mat-option>
             <mat-option>Aucun</mat-option>
         </mat-select>
@@ -27,7 +27,7 @@
     <th></th>
     <th></th>
     <th></th>
-    <th><button class="search" (click)="search()"><mat-icon style="margin-top:6px;">search</mat-icon>chercher</button></th>
+    <th><button class="search" (click)="chercher()"><mat-icon style="margin-top:6px;">search</mat-icon>chercher</button></th>
   </tr>
 
 
@@ -51,22 +51,22 @@
   </tr>
 
             <!-- lignes pour afficher les cours  -->
-  <tr *ngFor="let item of liste_course_filter" >
+  <tr *ngFor="let item of liste_cours_filtrer" >
     <td >{{item?._titleCours}}</td>
     <td >{{item?._domain}}</td>
     <td >{{item?._module}}</td>
     <td >
       <button class="button_edit"><p style="display: inline-block; margin-right: 8px; color: #42a2e3;" [routerLink]="['/display',item?._id]">afficher </p><img style="width: 16px;" src="../../assets/default-image/detail.jpeg"></button>
     </td>
-    <td *ngIf="liste_course_filter.length > 0">
-      <button class="button_edit"><p style="margin-right: 8px; margin-top: 1px; color: red;" (click)="Functiondelete(item?._id)">supprimer</p> <img style="width: 16px;" src="../../assets/default-image/supprimer (2).jpeg"></button>
+    <td *ngIf="liste_cours_filtrer.length > 0">
+      <button class="button_edit"><p style="margin-right: 8px; margin-top: 1px; color: red;" (click)="supprimer_cours(item?._id)">supprimer</p> <img style="width: 16px;" src="../../assets/default-image/supprimer (2).jpeg"></button>
     </td>
 
   </tr>
 
 
       <!-- lignes pour afficher un message qu'il n'y a pas de cours  -->
-  <tr *ngIf="liste_course_filter.length == 0">
+  <tr *ngIf="liste_cours_filtrer.length == 0">
     <td></td>
      <td style=" width: 100%;"><p style="font-size: 20px;color: gray; width: 300px;margin: 0 auto;">Rien n'est encore ajouté</p></td>
   </tr>
@@ -84,7 +84,7 @@
     <th></th>
     <th></th>
     <th></th>
-    <th style="line-height: 35px; "><p style=" margin: 0 auto; background-color: #42a2e3;width: 25px;line-height: 25px; border-radius: 13px;color: white;">{{liste_course_filter.length}}</p></th>
+    <th style="line-height: 35px; "><p style=" margin: 0 auto; background-color: #42a2e3;width: 25px;line-height: 25px; border-radius: 13px;color: white;">{{liste_cours_filtrer.length}}</p></th>
   </tr>
 </table>
 <br><br><br>

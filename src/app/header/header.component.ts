@@ -30,10 +30,22 @@ export class HeaderComponent implements OnInit,OnDestroy {
     }
   }
 
-  functionClick(){
+  ngOnInit(){
+    window.scrollTo(0,0);
+    this.status = this.login_service.AuthService();
+    this.role = this.login_service.HasRole();
+
+    this.Auth_status_subs = this.login_service.getAuthStatusListner().subscribe(Status=>{
+      this.status = Status;
+      this.role = this.login_service.HasRole();
+    })
+
+  }
+
+  ouvrir_barre_recherche(){
     this.search =true;
   }
-  functionClick2(){
+  fermer_barre_recherche(){
     this.search =false;
     this.form.reset();
   }
@@ -44,23 +56,11 @@ export class HeaderComponent implements OnInit,OnDestroy {
       return;
     }
     const input = this.form.value.input;
-    this.functionClick2();
+    this.fermer_barre_recherche();
     this.route.navigate(['/search',input]);
 
   }
 }
-  ngOnInit(){
-    window.scrollTo(0,0)
-    this.status = this.login_service.AuthService();
-    this.role = this.login_service.HasRole();
-    //this.status = this.login_service.AuthService();
-    this.Auth_status_subs = this.login_service.getAuthStatusListner().subscribe(Status=>{
-      this.status = Status;
-      this.role = this.login_service.HasRole();
-    })
-    console.log(this.role);
-
-  }
 
   logout(){
     this.login_service.LOGOUT();

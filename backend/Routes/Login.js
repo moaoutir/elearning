@@ -4,7 +4,6 @@ var mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const ValidateJWB = require('../middelware/check_authenticate')
 
-
 const router = express.Router();
 
 var con = mysql.createConnection({
@@ -29,10 +28,12 @@ router.post('/sign_in',(req,rep,next)=>{
     if (erreur) {
       console.log(erreur);
     }else{
+      //Header : Il contient l'algorithme de cryptage utilisé pour signer le token
+      // Signature : Il est utilisé pour vérifier l'intégrité du token, La signature est générée en combinant la partie Header, la partie Payload et une clé secrète
         if (resultat.length>0) {
-          const secret_key = 'secret_password_123';
-        const token = jwt.sign({login: resultat[0]._login,email: resultat[0]._email,role: resultat[0]._role},secret_key)//{expiresIn:"1h"}
-        rep.json({token:token,ExpiresIn : 3600,role:resultat[0]._role})
+          const cle_secret = 'secret_password_123';
+          const token = jwt.sign({login: resultat[0]._login,email: resultat[0]._email,role: resultat[0]._role},cle_secret)
+          rep.json({token:token,role:resultat[0]._role})
       } else rep.status(401).json({message:"failed"})
     }
   })
@@ -57,12 +58,11 @@ router.get('/get_email/:user',ValidateJWB('student administrator former '),(req,
     if (resultat.length>0) {
       rep.status(200).json({email:resultat[0]._email});
     }else
-    rep.status(404).json({message : "not found"})
+      rep.status(404).json({message : "not found"})
   })
 })
 
 router.delete('/:login',ValidateJWB('administrator'),(req,rep,next)=>{
-  console.log(req.params);
   con.query("SELECT _role FROM login WHERE _login = ?",[req.params.login],(erreur,resultat)=>{
     if (erreur) {
       console.log(erreur);
@@ -79,7 +79,7 @@ router.delete('/:login',ValidateJWB('administrator'),(req,rep,next)=>{
             console.log(erreur);
           }
         })
-      }else{ // si le user et un apprenant donc on doit supprimer les cours qui l'ont acheter de la table my_course
+      }else{ // si le user et un apprenant donc on doit supprimer les cours qui l'ont acheter de la table my_course et les certificats de la table certificates
         con.query('DELETE FROM my_course WHERE user = ?',[req.params.login],(erreur,resultat)=>{
           if (erreur) {
             console.log(erreur);

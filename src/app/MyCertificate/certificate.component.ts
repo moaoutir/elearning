@@ -20,12 +20,11 @@ export class MyCertificateComponent implements OnInit{
     this.course_service.getCertificates().subscribe(data => {
       this.list_certificate = data.certificates;
     },error =>{
-      console.log(error);
-      this.route.navigate(['/'])});
-
+      this.route.navigate(['/'])
+    });
 
   }
-  showCertificate(certificate:any){
+  ouvrir(certificate:any){
     window.open(certificate);
   }
 

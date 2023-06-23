@@ -5,16 +5,15 @@ import { loginService } from "./login.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authservice:loginService){}
+  constructor(private login_service:loginService){}
   intercept(req: HttpRequest<any>, next: HttpHandler){
     //console.log(req.headers);
-    const authtoken = this.authservice.getToken();
-    if (authtoken != null) {
-      const CloneRequest = req.clone({headers : req.headers.set('Authorization','bearer '+authtoken)})
-      //console.log("CloneRequest ",CloneRequest);
-      return next.handle(CloneRequest);
+    const token = this.login_service.getToken();
+    if (token != null) {
+      const Requet_clone = req.clone({headers : req.headers.set('Authorization',token)})
+
+      return next.handle(Requet_clone);
     }
-    //console.log("request ",req);
     return next.handle(req);
   }
 }

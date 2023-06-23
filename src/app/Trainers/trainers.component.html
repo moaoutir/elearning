@@ -16,16 +16,16 @@
   <mat-form-field class="formField">
     <mat-label>Sélectionnez un filière</mat-label>
     <mat-select (selectionChange)="getModuleSelected($event)">
-      <mat-option *ngFor="let item of list_modules" [value]="item?.name_module">
+      <mat-option *ngFor="let item of lists_filieres" [value]="item?.name_module">
         {{item?.name_module}}</mat-option>
         <mat-option>None</mat-option>
     </mat-select>
   </mat-form-field>
   <div class="div_search">
-    <button class="button_search" (click)="search()"><p style="padding-top: 5px;font-size: 17px;color: white; ">Chercher</p><mat-icon style="color: white; line-height: 35px;">search</mat-icon></button>
+    <button class="button_search" (click)="chercher()"><p style="padding-top: 5px;font-size: 17px;color: white; ">Chercher</p><mat-icon style="color: white; line-height: 35px;">search</mat-icon></button>
   </div>
 </div>
-<table mat-table [dataSource]="list_users_filter" class="mat-elevation-z8">
+<table mat-table [dataSource]="listes_formateur_filter" class="mat-elevation-z8">
 
   <!-- Checkbox Column-->
   <ng-container matColumnDef="edit" style="width: 300px;">
@@ -34,7 +34,7 @@
     <td mat-cell *matCellDef="let row">
       <div style="display: flex; ">
         <button  mat-button color="primary" (click)="openBottomSheet(row)"><mat-icon style="transform: scale(1); margin-right: 5px;">email</mat-icon>Envoyer un email</button>
-        <button  mat-button color="warn" (click)="functionDelete(row)"><mat-icon style="transform: scale(1); margin-right: 5px;">delete</mat-icon>Supprimer</button>
+        <button  mat-button color="warn" (click)="delete_formateur(row)"><mat-icon style="transform: scale(1); margin-right: 5px;">delete</mat-icon>Supprimer</button>
     </div>
     </td>
   </ng-container>
@@ -66,7 +66,7 @@
   <ng-container matColumnDef="Domain" >
     <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Domaine </th>
     <td mat-cell *matCellDef="let element" >
-    <div *ngFor="let item of list_my_domain">
+    <div *ngFor="let item of lists_mes_domaines">
      <p *ngIf="item.user === element._login">{{item.name_domain}}</p>
     </div></td>
   </ng-container>
@@ -74,7 +74,7 @@
   <ng-container matColumnDef="filière" >
     <th mat-header-cell *matHeaderCellDef style="width: 200px;"> filière </th>
     <td mat-cell *matCellDef="let element" >
-    <ul *ngFor="let item of list_my_modules">
+    <ul *ngFor="let item of lists_mes_filieres">
      <li *ngIf="item.user === element._login">{{item.name_module}}</li>
     </ul>
   </td>
