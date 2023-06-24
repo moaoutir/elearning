@@ -78,14 +78,38 @@ export class MyLearnersComponent implements OnInit,OnDestroy {
 
   }
 
+  // formateur
 
+  getFiliereSelected(event){
+    this.filiere_selected = event.value;
+  }
+
+  // adminstrateur
   Delete_apprenant(row:any){
     const user = row.user;
     this.login_service.deleteUser(user);
     this.course_service.SupprimerDeMonApprentissage(user); // on doit faire un update de l'observable MesCours quand on supprime un utilisateur
   }
 
+  getDomainSelected(event){
+    // event est un objet de type domaine
+    this.filiere_selected = undefined;
+    this.domain_selected = event.value.name_domain;
 
+    if (this.domain_selected === undefined) {
+      this.lists_filieres=[];
+    }else{
+      // o aura besoin de l'id de domaine pour afficher les modules
+      const id_domaine = event.value.id;
+
+      let domain = this.list_domains.filter(elm => elm.name_domain === this.domain_selected);
+      this.course_service.getfilieres(id_domaine).subscribe(data=>{
+        this.lists_filieres = data.list_module;
+    })
+   }
+  }
+
+  // administrateur et le formateur
   // on gere le BottomSheet
   openBottomSheet(row:any): void {
     this.login_service.getEmailOfuser(row.user).subscribe(data=>{
@@ -94,23 +118,6 @@ export class MyLearnersComponent implements OnInit,OnDestroy {
     })
   }
 
-  getDomainSelected(event){
-    this.domain_selected = event.value;
-    this.filiere_selected = undefined;
-    if (this.domain_selected === undefined) {
-      this.lists_filieres=[];
-    }else{
-      // o aura besoin de l'id de domaine pour afficher les modules
-      let domain = this.list_domains.filter(elm => elm.name_domain === this.domain_selected);
-      this.course_service.getfilieres(domain[0].id).subscribe(data=>{
-        this.lists_filieres = data.list_module;
-
-    })
-   }
-  }
-  getModuleSelected(event){
-    this.filiere_selected = event.value;
-  }
 
   chercher(){
     // myCourses{ _domain, _module, _title_cours, user, _price }

@@ -9,7 +9,6 @@ import { CourseService } from "../Course.service";
 import { Subscription } from 'rxjs';
 import {MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { EmailComponent } from "../Email/email.component";
-import { D } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'get_user',
@@ -24,12 +23,11 @@ export class GetUserComponent implements OnInit,OnDestroy {
   listes_formateur_filter:Login[]=[];
   list_users_sub: Subscription = new Subscription();
   list_domain_sub:Subscription = new Subscription();
-  liste_mes_cours_sub:Subscription = new Subscription();
   lists_filieres:filiere[]=[];
   list_domains:Domain[]=[];
   lists_mes_filieres
   lists_mes_domaines
-  domaine_selected:string;
+  id_domaine:number;
   filiere_selected:string;
   type_of_user:string=""; // on aura pas besoin de la fonction hasrole() car on a l'url
   constructor(public login_service : loginService,private course_service:CourseService,private _bottomSheet: MatBottomSheet , public router : ActivatedRoute, public route : Router) {}
@@ -64,20 +62,18 @@ export class GetUserComponent implements OnInit,OnDestroy {
   }
 
 
-  getModuleSelected(event:any){
+  getFiliereSelected(event:any){
     this.filiere_selected = event.value;
   }
 
 
   getDomainSelected(event: any){
-    this.domaine_selected = event.value;
+    this.id_domaine = event.value;
     this.filiere_selected = undefined;
-    if (this.domaine_selected === undefined) {
+    if (this.id_domaine === undefined) {
       this.lists_filieres=[];
     }else{
-    let domaine = this.list_domains.filter(elm => elm.name_domain === this.domaine_selected);
-    this.course_service.getfilieres(domaine[0].id).subscribe(data=>{
-
+    this.course_service.getfilieres(this.id_domaine).subscribe(data=>{
       this.lists_filieres = data.list_module;
     })
   }
@@ -85,11 +81,11 @@ export class GetUserComponent implements OnInit,OnDestroy {
 
   chercher(){
 
-    if (this.domaine_selected == undefined && this.filiere_selected==undefined) {
+    if (this.id_domaine == undefined && this.filiere_selected==undefined) {
       this.listes_formateur_filter = this.listes_formateur;
     }else if(this.filiere_selected == undefined){// il doit retourner les formateur qui ont un domaine qui ressemble au domaine selectionne
       // lists_mes_domaines { id_domain, name_domain,  user, _id}
-      const mes_domaines = this.lists_mes_domaines.filter(elm => elm.name_domain === this.domaine_selected)
+      const mes_domaines = this.lists_mes_domaines.filter(elm => elm.id_domain === this.id_domaine)
 
       let users:string[]=[];
       for (let i = 0; i < mes_domaines.length; i++) {
@@ -113,7 +109,7 @@ export class GetUserComponent implements OnInit,OnDestroy {
 
 
 
-    // on gere le BottomSheet
+    // on gere le BottomSheet pour envoyer un email
   openBottomSheet(row:any): void {
     this.course_service.setEmail(row._email);
     this._bottomSheet.open(EmailComponent);
@@ -121,7 +117,6 @@ export class GetUserComponent implements OnInit,OnDestroy {
 
   ngOnDestroy(): void {
     this.list_domain_sub.unsubscribe();
-    this.liste_mes_cours_sub.unsubscribe();
   }
 
 }

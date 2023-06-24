@@ -89,7 +89,7 @@ export class CourseService{
     });
   }
 
-  getFromMyCoursesByAdmin(){ // on retourne tous les etudiants avec leur cours
+  getFromMyCoursesByAdmin(){ // on retourne tous les etudiants de la plateforme avec leur cours
     this.http.get<{mes_cours:any}>("http://localhost:3000/course/all_courses_and_their_students").subscribe(data =>{
       this.mes_cours = data.mes_cours;
       this.MescoursUpdate.next([...this.mes_cours])
@@ -121,7 +121,6 @@ export class CourseService{
   addDomain(name_domain: string){
     this.domain = {id:null,name_domain:name_domain}
     this.domains.push(this.domain);
-
     this.trainingUpdate.next([...this.domains]);
     this.http.post("http://localhost:3000/training/domain",this.domain).subscribe();
   }
@@ -131,14 +130,12 @@ export class CourseService{
       this.domains=data.list_domain;
       this.trainingUpdate.next([...this.domains]);
     },error =>{
-      console.log(error);
       this.route.navigate(['/'])});
   }
 
   deleteDomain(name:string){
     this.http.delete<{list_domain: Domain[],list_module:filiere[]}>("http://localhost:3000/training/domain/"+name).subscribe(()=>{
       const updateTraining = this.domains.filter(elm => elm.name_domain !== name);
-      console.log(updateTraining);
       this.domains = updateTraining;
       this.trainingUpdate.next([...this.domains]);
     });

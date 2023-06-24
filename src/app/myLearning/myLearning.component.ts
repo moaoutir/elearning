@@ -31,12 +31,14 @@ export class MyLearningComponent implements OnInit {
     private login_service: loginService) {}
 
   ngOnInit() {
+  // recuperer les cours de mon apprentissage
   this.course_service.get_mon_apprentissage().subscribe(data =>{
     this.myCourses = data.my_learning;
   },error =>{
     this.route.navigate(['/'])
   })
 
+  // por ne pas afficher passer quiz si j'ai reussi dans l'examen
   this.course_service.getCertificates().subscribe(data=>{
     this.my_certificate  = data.certificates;
 
@@ -56,6 +58,7 @@ export class MyLearningComponent implements OnInit {
     this.course_service.setIdCourse_quiz(event._id);
     const dialogRef = this.dialog.open(PayControlComponent);
   }
+
 
   openBottomSheet(row:any): void {
     // cette fonction cherche l'email de l'utilisateur avec getEmailOfuser puis envoie l'email

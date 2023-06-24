@@ -35,11 +35,12 @@ export class ManageTrainerComponent implements OnInit,OnDestroy{
   constructor(private course_service: CourseService,private cdr: ChangeDetectorRef){
     this.form =  new FormGroup({
       domain: new FormControl(null, {
-        validators: [Validators.required, Validators.maxLength(30)],})
+        validators: [Validators.required, Validators.maxLength(30)]})
     });
 
     this.dataSource= new MatTableDataSource(this.list_domain);
   }
+
 
   ngOnInit(): void {
     // on recupere tous les domaines
@@ -66,21 +67,15 @@ export class ManageTrainerComponent implements OnInit,OnDestroy{
 
   remove(module: filiere): void {
     const index = this.lists_filieres.indexOf(module);
-
     this.lists_filieres.splice(index, 1);
   }
 
 
-  // retourne id de domaine a partir d'un nom du filiere
-  get_domaine_id(nom_domaine : string): number{
-    const domaine = this.list_domain.filter(elm => elm.name_domain === nom_domaine);
-    return domaine[0].id;
-  }
 
   afficher_les_filieres(event: any){
     this.isDisabled = false;
     this.nom_domaine = event.name_domain;
-    this.id_domaine = this.get_domaine_id(this.nom_domaine); // on selectionne id pour recupere les filieres selon l'id de domaine
+    this.id_domaine = event.id;
     this.course_service.getfilieres(this.id_domaine).subscribe(data=>{
       this.lists_filieres=data.list_module;
     })
@@ -94,7 +89,7 @@ export class ManageTrainerComponent implements OnInit,OnDestroy{
     this.isDisabled = true;
     }
 
-    
+
     Sauvegarder(){
     if (this.lists_filieres.length == 0) {
       this.course_service.delete_all_filieres(this.id_domaine);

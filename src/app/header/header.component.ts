@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
 
   constructor(private login_service:loginService,private route:Router){}
   @HostListener('window:scroll') onwindowScroll(){
-    if (window.pageYOffset >= 20) {
+    if (window.scrollY >= 20) {
        this.header = true;
 
     } else {
