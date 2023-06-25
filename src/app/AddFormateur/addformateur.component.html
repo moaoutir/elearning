@@ -33,7 +33,7 @@
         <mat-label>attribuer un domaine</mat-label>
 
         <mat-select (selectionChange)="getDomainSelected($event)" formControlName="domain">
-          <mat-option *ngFor="let item of list_domains" [value]="item?.name_domain">
+          <mat-option *ngFor="let item of list_domains" [value]="item?.id">
             {{item?.name_domain}}</mat-option>
 
         </mat-select>
@@ -42,7 +42,7 @@
       <mat-form-field appearance="fill" style="width: 400px">
         <mat-label>attribuer des filières</mat-label>
         <mat-select formControlName="filiere" multiple>
-          <mat-option *ngFor="let item of lists_filieres" [value]="item?.name_module">{{item?.name_module}}</mat-option>
+          <mat-option *ngFor="let item of lists_filieres" [value]="item?._id">{{item?.name_module}}</mat-option>
         </mat-select>
       </mat-form-field>
         <div class="button">

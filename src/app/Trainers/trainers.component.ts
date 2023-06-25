@@ -9,6 +9,7 @@ import { CourseService } from "../Course.service";
 import { Subscription } from 'rxjs';
 import {MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { EmailComponent } from "../Email/email.component";
+import { domain } from 'process';
 
 @Component({
   selector: 'get_user',
@@ -22,7 +23,7 @@ export class GetUserComponent implements OnInit,OnDestroy {
   listes_formateur:Login[]=[];
   listes_formateur_filter:Login[]=[];
   list_users_sub: Subscription = new Subscription();
-  list_domain_sub:Subscription = new Subscription();
+  //list_domain_sub:Subscription = new Subscription();
   lists_filieres:filiere[]=[];
   list_domains:Domain[]=[];
   lists_mes_filieres
@@ -34,24 +35,26 @@ export class GetUserComponent implements OnInit,OnDestroy {
 
 
 
-  ngOnInit() { // on recupere les formateurs, les domaines, et les filieres attribue au formateur
+  ngOnInit() { // on recupere les formateurs
     this.login_service.getFormer();
     this.list_users_sub = this.login_service.getUpdateFormer().subscribe((login: Login[])=>{
       this.listes_formateur = login;
       this.listes_formateur_filter = login;
     })
 
-    this.course_service.getDomains();
-    this.list_domain_sub = this.course_service.getUpdateDomain().subscribe((domains: Domain[])=>{
-      this.list_domains = domains;
-    })
-
+    // on recupere les domaines, et les filieres attribue au formateur
     this.course_service.getModuleAssignToAllFormer().subscribe(data=>{
       // data.list_my_domain { id_domain, name_domain,  user, _id}
       // data.list_my_modules {id_domain  name_module  user}
       this.lists_mes_domaines = data.list_my_domain;
       this.lists_mes_filieres = data.list_my_modules;
     });
+
+
+    // this.course_service.getDomains();
+    // this.list_domain_sub = this.course_service.getUpdateDomain().subscribe((domains: Domain[])=>{
+    //   this.list_domains = domains;
+    // })
 
   }
 
@@ -61,12 +64,17 @@ export class GetUserComponent implements OnInit,OnDestroy {
     this.login_service.deleteUser(user);
   }
 
-
-  getFiliereSelected(event:any){
-    this.filiere_selected = event.value;
+  // on gere le BottomSheet pour envoyer un email
+  openBottomSheet(row:any): void {
+    this.course_service.setEmail(row._email);
+    this._bottomSheet.open(EmailComponent);
   }
 
 
+
+  /*getFiliereSelected(event:any){
+    this.filiere_selected = event.value;
+  }
   getDomainSelected(event: any){
     this.id_domaine = event.value;
     this.filiere_selected = undefined;
@@ -78,19 +86,18 @@ export class GetUserComponent implements OnInit,OnDestroy {
     })
   }
   }
-
   chercher(){
-
     if (this.id_domaine == undefined && this.filiere_selected==undefined) {
       this.listes_formateur_filter = this.listes_formateur;
     }else if(this.filiere_selected == undefined){// il doit retourner les formateur qui ont un domaine qui ressemble au domaine selectionne
       // lists_mes_domaines { id_domain, name_domain,  user, _id}
       const mes_domaines = this.lists_mes_domaines.filter(elm => elm.id_domain === this.id_domaine)
 
-      let users:string[]=[];
-      for (let i = 0; i < mes_domaines.length; i++) {
-        users[i] = mes_domaines[i].user
-    }
+      let users:string[] = mes_domaines.map(domain => domain.user);
+
+    //   for (let i = 0; i < mes_domaines.length; i++) {
+    //     users[i] = mes_domaines[i].user
+    // }
 
     this.listes_formateur_filter = this.listes_formateur.filter(elm => users.includes(elm._login));
     }else{
@@ -105,18 +112,12 @@ export class GetUserComponent implements OnInit,OnDestroy {
 
       this.listes_formateur_filter = this.listes_formateur.filter(elm => users.includes(elm._login));
     }
-  }
+  }*/
 
 
-
-    // on gere le BottomSheet pour envoyer un email
-  openBottomSheet(row:any): void {
-    this.course_service.setEmail(row._email);
-    this._bottomSheet.open(EmailComponent);
-  }
 
   ngOnDestroy(): void {
-    this.list_domain_sub.unsubscribe();
+    //this.list_domain_sub.unsubscribe();
   }
 
 }

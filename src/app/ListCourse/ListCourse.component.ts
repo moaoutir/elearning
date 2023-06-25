@@ -26,7 +26,7 @@ export class ListCourseComponent implements OnInit {
     public dialog: MatDialog) {}
   ngOnInit() {
   this.route.paramMap.subscribe(paramMap=>{
-    if (paramMap.has('name')) { // rechercher un cours
+    if (paramMap.has('name')) { // rechercher un cours a l'aide du parametre passe dans l'url
       this.nom_du_cour_cherche = paramMap.get('name');
       this.course_service.search_courses_by_name(this.nom_du_cour_cherche).subscribe(data=>{
         this.courses = data.liste_cours;

@@ -35,6 +35,9 @@ export class HeaderComponent implements OnInit,OnDestroy {
     this.status = this.login_service.AuthService();
     this.role = this.login_service.HasRole();
 
+    // on retourne le status de l'authentification s'il est connecte ou non. cette tache nécessité un observable
+    // qui reste a l'ecoute a chaque fois quand change le status
+
     this.Auth_status_subs = this.login_service.getAuthStatusListner().subscribe(Status=>{
       this.status = Status;
       this.role = this.login_service.HasRole();

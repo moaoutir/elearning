@@ -24,6 +24,9 @@ export class MyCertificateComponent implements OnInit{
     });
 
   }
+
+
+  
   ouvrir(certificate:any){
     window.open(certificate);
   }

@@ -89,7 +89,6 @@ export class ManageTrainerComponent implements OnInit,OnDestroy{
     this.isDisabled = true;
     }
 
-
     Sauvegarder(){
     if (this.lists_filieres.length == 0) {
       this.course_service.delete_all_filieres(this.id_domaine);

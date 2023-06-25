@@ -48,8 +48,7 @@ export class MyLearnersComponent implements OnInit,OnDestroy {
 
       this.course_service.get_filieres_attribue_au_formateur().subscribe(data=>{
         this.lists_filieres = data.my_modules;
-        this.domain_selected = data.my_domain.name_domain; // ici on affecte au domain_selected le domain qui a ete affecte au formateur
-        // car on aura besoin dans la fonction chercher
+
       },error =>{
         this.route.navigate(['/'])
       })
@@ -78,10 +77,27 @@ export class MyLearnersComponent implements OnInit,OnDestroy {
 
   }
 
-  // formateur
-
+  // formateur, administrateur
   getFiliereSelected(event){
     this.filiere_selected = event.value;
+  }
+
+  // administrateur
+  getDomainSelected(event){
+
+    this.filiere_selected = undefined;
+    this.domain_selected = event.value.name_domain;
+
+    if (this.domain_selected === undefined) {
+      this.lists_filieres=[];
+    }else{
+      // on aura besoin de l'id de domaine pour afficher les filieres
+      const id_domaine = event.value.id;
+
+      this.course_service.getfilieres(id_domaine).subscribe(data=>{
+        this.lists_filieres = data.list_module;
+    })
+   }
   }
 
   // adminstrateur
@@ -91,36 +107,9 @@ export class MyLearnersComponent implements OnInit,OnDestroy {
     this.course_service.SupprimerDeMonApprentissage(user); // on doit faire un update de l'observable MesCours quand on supprime un utilisateur
   }
 
-  getDomainSelected(event){
-    // event est un objet de type domaine
-    this.filiere_selected = undefined;
-    this.domain_selected = event.value.name_domain;
-
-    if (this.domain_selected === undefined) {
-      this.lists_filieres=[];
-    }else{
-      // o aura besoin de l'id de domaine pour afficher les modules
-      const id_domaine = event.value.id;
-
-      let domain = this.list_domains.filter(elm => elm.name_domain === this.domain_selected);
-      this.course_service.getfilieres(id_domaine).subscribe(data=>{
-        this.lists_filieres = data.list_module;
-    })
-   }
-  }
-
-  // administrateur et le formateur
-  // on gere le BottomSheet
-  openBottomSheet(row:any): void {
-    this.login_service.getEmailOfuser(row.user).subscribe(data=>{
-      this.course_service.setEmail(data.email);
-      this._bottomSheet.open(EmailComponent);
-    })
-  }
-
 
   chercher(){
-    // myCourses{ _domain, _module, _title_cours, user, _price }
+    // myCourses{_title_cours,  _domain, _module, user, _price }
 
     if (this.domain_selected == undefined && this.filiere_selected == undefined) {
       this.mycourse_filter = this.myCourses;
@@ -130,6 +119,16 @@ export class MyLearnersComponent implements OnInit,OnDestroy {
     }else
       this.mycourse_filter = this.myCourses.filter(elm => (elm._module === this.filiere_selected));
     this.total_course = this.mycourse_filter.length;
+  }
+
+
+   // administrateur et le formateur
+  // on gere le BottomSheet pour envoyer un email
+  openBottomSheet(row:any): void {
+    this.login_service.getEmailOfuser(row.user).subscribe(data=>{
+      this.course_service.setEmail(data.email);
+      this._bottomSheet.open(EmailComponent);
+    })
   }
 
   ngOnDestroy(): void {

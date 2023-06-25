@@ -18,10 +18,12 @@ export class loginService{
   private UserUpdate = new Subject<Login[]>();
   constructor(private http:HttpClient,private route: Router){}
 
+
+  // observable qui gere les utilisateurs
+
   addNewLogin(login :string,email:string, password:string, firstName:string, lastName:string, type:string){
     this.newLogin = {id: null,_firstName:firstName,_lastName:lastName,_login:login,_email:email,_password:password,_type:type};
     this.list_user.push(this.newLogin);
-    console.log(this.newLogin);
     this.UserUpdate.next([...this.list_user]);
     this.http.post("http://localhost:3000/login/sign_up",this.newLogin).subscribe();
     if(type === "student")
@@ -48,6 +50,9 @@ export class loginService{
       this.UserUpdate.next([...this.list_user]);
     });
   }
+
+  // fin de l'observable qui gere les utilisateurs
+
 
   LOGIN(_login: string,password: string){
     this.login={id:null,_firstName:null,_lastName:null,_login:_login,_email:null,_password:password,_type:null}

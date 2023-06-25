@@ -30,21 +30,21 @@ export class AddFormateurComponent implements OnInit,OnDestroy {
   });
 
   ngOnInit(): void {
+    // recuperer les domaines
     this.course_service.getDomains();
     this.list_domain_sub = this.course_service.getUpdateDomain().subscribe((domains:Domain[])=>{
       this.list_domains = domains;
     })
-  } // avec les observables on peut gerer les donnees en temps reel
+  }
+
+  // avec les observables on peut gerer les donnees en temps reel
 
 
   getDomainSelected(event){
     this.lists_filieres=[];
     this.form.value.filiere=null;
-    const name_domain = event.value;
-    if (name_domain !== undefined) {
-      const domain = this.list_domains.filter(elm => elm.name_domain === name_domain);
-      //car on aura besoin de id pour recevoir les filieres
-      this.domaine_id = domain[0].id;
+    this.domaine_id = event.value;
+    if (this.domaine_id !== undefined) {
 
       this.course_service.getfilieres(this.domaine_id).subscribe(data=>{
         this.lists_filieres = data.list_module;
@@ -57,20 +57,11 @@ export class AddFormateurComponent implements OnInit,OnDestroy {
       alert("formulaire invalide");
       return;
     }
-    let array_id_filiere:number[]=[]; // puisque on va souvgarder les id des filieres dans la table mydomain et my_filiere
 
     this.login_service.addNewLogin(this.form.value.login,this.form.value.email,this.form.value.password,
       this.form.value.prenom,this.form.value.nom,this.type);
 
-      // this.form.value.filiere == ['filiere1' , 'filiere2' ... ]
-      const filiere = this.lists_filieres.filter(elm => this.form.value.filiere.includes(elm.name_module))
-      // la fontion set_Filiere_Au_Formateur a besoin de id du filiere mais pas son nom
-
-      for (let j = 0; j< filiere.length; j++) {  // mettre les id dans la table array_id_filiere
-        array_id_filiere.push(filiere[j]._id);
-      }
-
-      this.course_service.set_Filiere_Au_Formateur(this.form.value.login,this.domaine_id,array_id_filiere);
+      this.course_service.set_Filiere_Au_Formateur(this.form.value.login,this.domaine_id,this.form.value.filiere);
 
       this.route.navigate(['/get_trainers']);
   }
